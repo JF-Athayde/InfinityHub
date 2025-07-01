@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Adicionar Evento | InfinityHub{% endblock %}
+
+{% block content %}
+<h2>Adicionar Evento</h2>
+
+<form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div>
+      <label for="data">Data e Hora:</label><br>
+      {{ form.data(class="form-control") }}
+      {% if form.data.errors %} <small style="color:red;">{{ form.data.errors[0] }}</small>{% endif %}
+    </div>
+
+    <div>
+      <label for="title">Título:</label><br>
+      {{ form.title(class="form-control") }}
+      {% if form.title.errors %} <small style="color:red;">{{ form.title.errors[0] }}</small>{% endif %}
+    </div>
+
+    <div>
+      <label for="description">Descrição (opcional):</label><br>
+      {{ form.description(class="form-control", rows="3") }}
+    </div>
+
+    <div>
+      <label for="category">Categoria:</label><br>
+      {{ form.category(class="form-control") }}
+    </div>
+
+    <div>
+      <label for="warning">Aviso:</label>
+      {{ form.warning() }}
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Adicionar Evento</button>
+</form>
+
+<a href="{{ url_for('calendar') }}" style="display:block; margin-top: 1rem;">Voltar para o Calendário</a>
+{% endblock %}

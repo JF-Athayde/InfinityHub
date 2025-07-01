@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Perfil | InfinityHub{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile/profile.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="profile-page">
+    <div class="profile-card">
+        <div class="profile-picture">
+            <img src="{{ url_for('static', filename='assets/profile_pictures/' + (user.photo_url or 'default.png')) }}" alt="Foto de Perfil">
+        </div>
+        <div class="profile-info">
+            <h2>{{ user.username }}</h2>
+            <p class="cargo">{{ user.cargo or 'Cargo não definido' }}</p>
+            <p class="bio">{{ user.bio or 'Sem biografia no momento.' }}</p>
+            <a href="{{ url_for('settings') }}" class="btn-edit">Editar perfil</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

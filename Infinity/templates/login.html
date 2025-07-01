@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Login | InfinityHub{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms/login.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {{ form.hidden_tag() }}
+
+    <h1>Entrar</h1>
+
+    <div class="it">
+        {{ form.email.label }}
+        {{ form.email(class="form-control") }}
+        {% for error in form.email.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="it">
+        {{ form.password.label }}
+        {{ form.password(class="form-control") }}
+        {% for error in form.password.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="it">
+        {{ form.remember() }} {{ form.remember.label }}
+    </div>
+
+    <div class="it">
+        {{ form.submit() }}
+    </div>
+
+    <div class="it" style="text-align: center;">
+        <a href="{{ url_for('register') }}">Não tem conta? Cadastre-se</a>
+    </div>
+</form>
+{% endblock %}

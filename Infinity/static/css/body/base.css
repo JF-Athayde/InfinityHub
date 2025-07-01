@@ -1,0 +1,115 @@
+:root {
+  /* Paleta Infinity School */
+  --color-1: #1e2021;
+  --color-2: #bca99b;
+  --color-3: #6e5f57;
+  --color-4: #5ba5a9;
+  --color-5: #306e70;
+  --color-6: #a62636;
+  --color-7: #1e232b;
+  --color-8: #463a30;
+  --color-9: #294763;
+  --color-10: #194147;
+
+  --bg-light: #f9f9f9;
+  --bg-dark: #1e2021;
+  --text-light: #1e2021;
+  --text-dark: #f0f0f0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.light {
+  background-color: var(--bg-light);
+  color: var(--text-light);
+}
+
+body.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+/* Header */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #7b1e1e, var(--color-6)); /* degradê vermelho escuro */
+  color: white;
+  flex-wrap: wrap;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  height: 50px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-profile img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-info span {
+  font-weight: bold;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 1.2rem;
+}
+
+.theme-toggle input {
+  transform: scale(1.2);
+}
+
+/* Main */
+
+main {
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* Footer */
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--color-9);
+  color: white;
+  margin-top: 2rem;
+}
+
+/* Responsividade */
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    margin-top: 0.5rem;
+  }
+}

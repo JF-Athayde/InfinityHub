@@ -1,0 +1,20 @@
+<nav class="navbar">
+    <div class="hamburger" onclick="toggleMenu(this)">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <ul class="nav-links">
+        <li><a href="{{ url_for('homepage') }}">Início</a></li>
+        <li><a href="#">Anotação Rápida</a></li>
+        <li><a href="{{ url_for('calendar') }}">Calendário Pessoal</a></li>
+        <li><a href="#">Planilhas</a></li>
+        <li><a href="#">Notificações</a></li>
+        <li><a href="https://infinityschool.eadplataforma.app" target="_blank" rel="noopener noreferrer">Infinity App</a></li> <!-- link externo -->
+
+        {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('profile_user', username=user.username) }}">Perfil</a></li>
+            <li><a href="{{ url_for('logout') }}">Sair</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login') }}">Entrar</a></li>
+        {% endif %}
+    </ul>
+</nav>

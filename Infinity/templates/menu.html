@@ -1,0 +1,19 @@
+<div class="header-left">
+    <img src="{{ url_for('static', filename='assets/images/logo.png') }}" alt="Logo Infinity" class="logo">
+    <h1>InfinityHub</h1>
+</div>
+<div class="header-right">
+    <div class="theme-toggle">
+        <label for="toggle-dark" title="Alternar tema">🌗</label>
+        <input type="checkbox" id="toggle-dark">
+    </div>
+    {% if current_user.is_authenticated %}
+    <a href="{{ url_for('profile_user', username=user.username) }}" class="user-profile">
+        <img src="{{ url_for('static', filename='assets/profile_pictures/' + (current_user.photo_url | default('default.png', true))) }}" alt="Foto de Perfil">
+        <div class="user-info">
+            <span>{{ current_user.username }}</span>
+            <small>{{ current_user.cargo }}</small>
+        </div>
+    </a>
+    {% endif %}
+</div>

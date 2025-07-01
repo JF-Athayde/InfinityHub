@@ -1,0 +1,57 @@
+.profile-page {
+    display: flex;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: #fdfdfd;
+}
+
+.profile-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+.profile-picture img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #ddd;
+    margin-bottom: 1.5rem;
+}
+
+.profile-info h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.profile-info .cargo {
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.profile-info .bio {
+    font-style: italic;
+    color: #444;
+    margin-bottom: 1.5rem;
+}
+
+.btn-edit {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: #a62626;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.btn-edit:hover {
+    background-color: #6e2e2e;
+}

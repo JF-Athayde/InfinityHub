@@ -1,0 +1,127 @@
+:root {
+  /* Paleta Infinity School */
+  --color-1: #1e2021;
+  --color-2: #bca99b;
+  --color-3: #6e5f57;
+  --color-4: #5ba5a9;
+  --color-5: #306e70;
+  --color-6: #a62636;
+  --color-7: #4a6daa;
+  --color-8: #463a30;
+  --color-9: #27221f;
+  --color-10: #294763;
+  --color-11: #194147;
+  --bg-light: #f9f9f9;
+  --bg-dark: #1e2021;
+  --text-light: #1e2021;
+  --text-dark: #f0f0f0;
+}
+
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff8f0;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Nav links - menu lateral */
+.nav-links {
+    list-style: none;
+    position: fixed;
+    top: 0;
+    left: 0; /* lateral esquerda */
+    height: 100vh; /* altura total */
+    width: 0; /* fechado */
+    background-color: var(--color-9);
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    overflow-y: auto; /* permite scroll vertical se precisar */
+    transition: width 0.3s ease;
+    padding-top: 4rem; /* espaço para o header */
+    z-index: 9999;
+    border-radius: 0 10px 10px 0; /* borda arredondada na lateral direita do menu */
+}
+
+.nav-links.open {
+    width: 250px; /* largura do menu aberto */
+}
+
+.nav-links li {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.nav-links a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 1rem 0;
+    width: 100%;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-links a:hover {
+    background-color: white;
+    color: #000000;
+    border-radius: 10px;
+}
+
+.user-profile {
+    text-decoration: none;
+    color: white;
+}
+
+/* Hamburger menu - sempre visível */
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    width: 24px;
+    height: 18px;
+    justify-content: space-between;
+    z-index: 10001;
+}
+
+.bar {
+    height: 3px;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    transition: all 0.4s ease;
+}
+
+/* Animação do X */
+.hamburger.active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}

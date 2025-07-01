@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Configurações | InfinityHub{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/forms/login.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/body/header.css') }}">
+{% endblock %}
+
+{% block content %}
+<form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+
+    <h1>Editar Perfil</h1>
+
+    <div class="it">
+        {{ form.username.label }}
+        {{ form.username(class="form-control") }}
+        {% for error in form.username.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="it">
+        {{ form.cargo.label }}
+        {{ form.cargo(class="form-control") }}
+        {% for error in form.cargo.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="it">
+        {{ form.bio.label }}
+        {{ form.bio(class="form-control", rows=4) }}
+        {% for error in form.bio.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="it">
+        {{ form.photo.label }}
+        {{ form.photo(class="form-control") }}
+        {% for error in form.photo.errors %}
+            <small class="text-danger">{{ error }}</small>
+        {% endfor %}
+    </div>
+
+    <div class="it">
+        {{ form.submit() }}
+    </div>
+</form>
+{% endblock %}

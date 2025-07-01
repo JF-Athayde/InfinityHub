@@ -1,0 +1,269 @@
+a {
+    text-decoration: none;
+}
+
+:root {
+    --color-black: #1e2021;
+    --color-white: #ffffff;
+    --color-gray: #525252;
+    --color-red: #a62626;
+}
+
+/* ========= Modo Claro ========= */
+body.light .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 2rem;
+    gap: 2.5rem;
+    border-radius: 12px;
+    flex-wrap: wrap;
+    color: var(--color-white);
+    transition: background 0.3s, color 0.3s;
+    background-image: linear-gradient(135deg, var(--color-black), var(--color-gray));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body.light .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+    min-width: 280px;
+}
+
+body.light .hero-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+body.light .hero-text p {
+    width: 75%;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+body.light .btn-primary {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-red);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+body.light .btn-primary:hover {
+    background-color: var(--color-gray);
+}
+
+body.light .hero-img {
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+}
+
+body.light .hero-img img {
+    max-width: 100%;
+    height: auto;
+}
+
+body.light .features {
+    margin-top: 3rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    transition: color 0.3s;
+}
+
+body.light .feature-card {
+    background-color: var(--color-white);
+    color: var(--color-black);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.08);
+    flex: 1 1 250px;
+    max-width: 300px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, background-color 0.3s, color 0.3s;
+}
+
+body.light .feature-card:hover {
+    transform: translateY(-5px);
+}
+
+body.light .feature-card h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+body.light .feature-card p {
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* ========= Modo Escuro ========= */
+body.dark .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 2rem;
+    gap: 2.5rem;
+    border-radius: 12px;
+    flex-wrap: wrap;
+    color: var(--color-white);
+    transition: background 0.3s, color 0.3s;
+}
+
+body.dark .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+    min-width: 280px;
+}
+
+body.dark .hero-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+body.dark .hero-text p {
+    width: 75%;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+body.dark .btn-primary {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-red);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+body.dark .btn-primary:hover {
+    background-color: var(--color-gray);
+}
+
+body.dark .hero-img {
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+}
+
+body.dark .hero-img img {
+    max-width: 100%;
+    height: auto;
+}
+
+body.dark .features {
+    margin-top: 3rem;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    transition: color 0.3s;
+}
+
+body.dark .feature-card {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ffffff40;
+    flex: 1 1 250px;
+    max-width: 300px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease, background-color 0.3s, color 0.3s;
+}
+
+body.dark .feature-card:hover {
+    transform: translateY(-5px);
+}
+
+body.dark .feature-card h3 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+body.dark .feature-card p {
+    font-size: 1rem;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* ========= Ícones visíveis em modos distintos ========= */
+#r1 {
+    display: none;
+}
+
+#r2 {
+    display: inline-block;
+}
+
+/* ========= Responsividade ========= */
+@media (max-width: 690px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 2.5rem;
+        padding: 3rem 1.5rem;
+    }
+
+    .hero-text,
+    .hero-img {
+        flex: none;
+    }
+
+    .features {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    body.dark .hero-text p {
+        width: 100%;
+    }
+
+    body.dark .hero-text p {
+        width: 100%;
+    }
+
+    #r2 {
+        display: none;
+    }
+
+    #r1 {
+        display: inline-block;
+    }
+}

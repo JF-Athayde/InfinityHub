@@ -1,0 +1,90 @@
+#calendar {
+  max-width: 700px;  /* menor largura */
+  margin: 1.5rem auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 1rem;
+}
+
+/* Número do dia (cabeçalho de cada célula) */
+.fc .fc-daygrid-day-number {
+  font-weight: 700;
+  font-size: 1rem;  /* um pouco menor */
+  color: #1a1a1a;
+  text-shadow: none;  /* removido para clareza */
+  padding: 6px 8px;
+}
+
+/* Fundo do número do dia para melhor destaque */
+.fc .fc-daygrid-day-top {
+  background-color: #f0f0f5;  /* tom levemente azulado para modernizar */
+  border-bottom: 1px solid #ddd;
+  padding-left: 8px;
+  border-radius: 8px 8px 0 0;
+  box-shadow: inset 0 -1px 2px rgba(0,0,0,0.05);
+}
+
+/* Eventos dentro do dia */
+.fc .fc-daygrid-event {
+  padding: 4px 8px;
+  font-size: 0.8em;  /* um pouco menor para caber melhor */
+  border-radius: 6px;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 700;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Hover para destaque do evento */
+.fc .fc-daygrid-event:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px rgba(0,0,0,0.25);
+}
+
+/* Esconde o pontinho padrão */
+.fc .fc-daygrid-event-dot {
+  display: none;
+}
+
+/* Categorias coloridas */
+.fc-event-categoria-trabalho {
+  background-color: #2978b5 !important; /* azul escuro */
+}
+
+.fc-event-categoria-pessoal {
+  background-color: #2e8b57 !important; /* verde escuro */
+}
+
+.fc-event-categoria-estudo {
+  background-color: #e07b39 !important; /* laranja queimado */
+}
+
+.fc-event-categoria-lazer {
+  background-color: #c12e62 !important; /* rosa escuro */
+}
+
+.fc-event-categoria-outro {
+  background-color: #6c757d !important; /* cinza escuro */
+}
+
+/* Tooltip */
+.event-tooltip {
+  background: rgba(34, 34, 34, 0.9);
+  color: #f0f0f0;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85em;
+  pointer-events: none;
+  z-index: 10000;
+  position: absolute;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+  max-width: 250px;
+  line-height: 1.3;
+}

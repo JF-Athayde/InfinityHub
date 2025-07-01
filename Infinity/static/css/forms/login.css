@@ -1,0 +1,162 @@
+/* Reset simples */
+* {
+  box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#logo {
+    margin-bottom: 30px;
+}
+
+#logo h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    color: #91360c;
+    text-align: center;
+    user-select: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+form {
+    background-color: #fff;
+    padding: 30px 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(145, 54, 12, 0.15);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    transition: box-shadow 0.3s ease;
+}
+
+form:hover {
+    box-shadow: 0 10px 30px rgba(145, 54, 12, 0.25);
+}
+
+form h1 {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #572108;
+}
+
+.it {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.it label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #572108;
+    user-select: none;
+}
+
+.it input,
+.it select {
+    padding: 12px 14px;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline-offset: 2px;
+}
+
+.it input:focus,
+.it select:focus {
+    border-color: #91360c;
+    box-shadow: 0 0 6px rgba(145, 54, 12, 0.4);
+    outline: none;
+}
+
+input[type="submit"], button {
+    background-color: #91360c;
+    color: white;
+    border: none;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #572108;
+    box-shadow: 0 4px 10px rgba(87, 33, 8, 0.5);
+}
+
+.it.remember {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.it.remember input[type="checkbox"] {
+    width: auto;
+    cursor: pointer;
+    margin: 0;
+}
+
+.it.remember label {
+    margin: 0;
+    cursor: pointer;
+    user-select: none;
+    color: #572108;
+}
+
+a {
+    margin-top: 20px;
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: #ff5555;
+    font-weight: 700;
+    transition: color 0.2s ease;
+    user-select: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #d14040;
+}
+
+/* Mensagens de erro do WTForms (ajuste para texto pequeno e vermelho) */
+small.text-danger {
+    color: #b33030;
+    font-size: 0.875rem;
+    margin-top: 4px;
+}
+
+/* Responsivo básico */
+@media (max-width: 440px) {
+    form {
+        padding: 25px 20px 35px;
+        max-width: 100%;
+    }
+
+    #logo h1 {
+        font-size: 2rem;
+    }
+}
