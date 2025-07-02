@@ -12,7 +12,7 @@
         <div class="hero-text">
             <h2>Bem-vindo ao InfinityHub</h2>
             <p>Seu ambiente interno de produtividade na Infinity School. Aqui você organiza suas tarefas, agenda eventos e personaliza seu dia.</p>
-            <a href="#" class="btn-primary" id="r2">Acessar Calendário</a>
+            <a href="{{ url_for('calendar') }}" class="btn-primary" id="r2">Acessar Calendário</a>
         </div>
         <div class="hero-img">
             <img src="{{ url_for('static', filename='assets/images/infinity.png') }}" alt="Ilustração de produtividade">

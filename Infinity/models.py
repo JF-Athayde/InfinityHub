@@ -1,6 +1,7 @@
 from Infinity import database, login_manager
 from flask_login import UserMixin
 from datetime import datetime
+from sqlalchemy import Date
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -19,8 +20,19 @@ class Calendar(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     user_id = database.Column(database.Integer, database.ForeignKey('user.id'), nullable=False)
     user = database.relationship('User', backref='calendars')
-    data = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)
+    data = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)  # data + hora
+    day_month_year = database.Column(Date, nullable=False)  # **apenas a data, sem hora**
     title = database.Column(database.String(100), nullable=False)
     description = database.Column(database.Text)
     category = database.Column(database.String(50), nullable=False)
     warning = database.Column(database.Boolean, nullable=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if self.data and not self.day_month_year:
+            # Se for datetime, pega só a data
+            if hasattr(self.data, 'date'):
+                self.day_month_year = self.data.date()
+            else:
+                # Se já for date, usa direto
+                self.day_month_year = self.data

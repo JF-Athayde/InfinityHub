@@ -3,18 +3,35 @@
 {% block title %}Calendário | InfinityHub{% endblock %}
 
 {% block head_extra %}
-<link href="{{ url_for('static', filename='css/calendar.css') }}" rel="stylesheet" />
-<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
-<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js'></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar/calendar.css') }}">
 {% endblock %}
 
 {% block content %}
-<h2>Calendário de Eventos</h2>
+<section class="calendar-container">
+    <div class="calendar-header">
+        <div class="month">
+            <button id="prev-month" aria-label="Mês anterior">&lt;</button>
+            <h1 id="month-year">Mês Ano</h1>
+            <button id="next-month" aria-label="Próximo mês">&gt;</button>
+        </div>
+        <a href="{{ url_for('add_event') }}" class="btn-add-event">+ Adicionar Evento</a>
+    </div>
 
-<div id="calendar"></div>
+    <div class="wraper">
+        <div class="days-week">
+            <span><span class="full">Segunda</span><span class="abbr">S</span></span>
+            <span><span class="full">Terça</span><span class="abbr">T</span></span>
+            <span><span class="full">Quarta</span><span class="abbr">Q</span></span>
+            <span><span class="full">Quinta</span><span class="abbr">Q</span></span>
+            <span><span class="full">Sexta</span><span class="abbr">S</span></span>
+            <span><span class="full">Sábado</span><span class="abbr">S</span></span>
+            <span><span class="full">Domingo</span><span class="abbr">D</span></span>
+        </div>
+        <div class="numbers-days"></div>
+    </div>
+</section>
+{% endblock %}
 
-<div class="btn-container">
-  <a href="{{ url_for('add_event') }}" class="btn btn-primary">Adicionar Evento</a>
-</div>
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
 {% endblock %}

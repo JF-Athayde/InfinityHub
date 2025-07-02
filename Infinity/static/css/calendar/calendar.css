@@ -1,90 +1,278 @@
-#calendar {
-  max-width: 700px;  /* menor largura */
-  margin: 1.5rem auto;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  padding: 1rem;
+/* Reset e base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Número do dia (cabeçalho de cada célula) */
-.fc .fc-daygrid-day-number {
-  font-weight: 700;
-  font-size: 1rem;  /* um pouco menor */
-  color: #1a1a1a;
-  text-shadow: none;  /* removido para clareza */
-  padding: 6px 8px;
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f0f0f0;
+    color: #222;
 }
 
-/* Fundo do número do dia para melhor destaque */
-.fc .fc-daygrid-day-top {
-  background-color: #f0f0f5;  /* tom levemente azulado para modernizar */
-  border-bottom: 1px solid #ddd;
-  padding-left: 8px;
-  border-radius: 8px 8px 0 0;
-  box-shadow: inset 0 -1px 2px rgba(0,0,0,0.05);
+/* ===== Container Principal ===== */
+.calendar-container {
+    max-width: 960px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Eventos dentro do dia */
-.fc .fc-daygrid-event {
-  padding: 4px 8px;
-  font-size: 0.8em;  /* um pouco menor para caber melhor */
-  border-radius: 6px;
-  color: white;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 700;
-  text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-/* Hover para destaque do evento */
-.fc .fc-daygrid-event:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 8px rgba(0,0,0,0.25);
+.calendar-header h1 {
+    font-size: 1.8rem;
+    color: #333;
+    margin: 0;
 }
 
-/* Esconde o pontinho padrão */
-.fc .fc-daygrid-event-dot {
-  display: none;
+.calendar-header button {
+    font-size: 1.2rem;
+    background-color: #4a6daa;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 
-/* Categorias coloridas */
-.fc-event-categoria-trabalho {
-  background-color: #2978b5 !important; /* azul escuro */
+.calendar-header button:hover {
+    background-color: #3a5b8a;
 }
 
-.fc-event-categoria-pessoal {
-  background-color: #2e8b57 !important; /* verde escuro */
+.btn-add-event {
+    background-color: #4caf50;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    white-space: nowrap;
 }
 
-.fc-event-categoria-estudo {
-  background-color: #e07b39 !important; /* laranja queimado */
+.btn-add-event:hover {
+    background-color: #449944;
 }
 
-.fc-event-categoria-lazer {
-  background-color: #c12e62 !important; /* rosa escuro */
+.wraper {
+    width: 100%;
 }
 
-.fc-event-categoria-outro {
-  background-color: #6c757d !important; /* cinza escuro */
+/* ===== Cabeçalho mês com setas lado a lado ===== */
+.month {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
 }
 
-/* Tooltip */
-.event-tooltip {
-  background: rgba(34, 34, 34, 0.9);
-  color: #f0f0f0;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font-size: 0.85em;
-  pointer-events: none;
-  z-index: 10000;
-  position: absolute;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.6);
-  max-width: 250px;
-  line-height: 1.3;
+.month h1 {
+    font-size: 1.8rem;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* ===== Dias da Semana ===== */
+.days-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-weight: bold;
+    color: #555;
+    gap: 10px; /* espaçamento igual aos dias */
+    justify-content: center;
+}
+
+.days-week span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    min-width: 50px;
+    max-width: 90px;
+    width: 100%;
+}
+
+.days-week .abbr {
+    display: none;
+}
+
+/* ===== Dias do Mês (Desktop por padrão, responsivo no media query) ===== */
+.numbers-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    place-content: center;
+}
+
+.numbers-days span {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-size: 14px;
+    padding: 8px;
+
+    min-width: 50px;
+    max-width: 90px;
+
+    min-height: 50px;
+    max-height: 90px;
+}
+
+.numbers-days span:hover {
+    background-color: #e0e0e0;
+}
+
+.numbers-days .empty-day {
+    background-color: transparent;
+    cursor: default;
+}
+
+/* Evento */
+.event-title {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 6px;
+    color: #222;
+    word-break: break-word;
+}
+
+.day-number {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    position: absolute;
+    top: -5px;
+    left: 5px;
+}
+
+/* ===== Cores por Prioridade/Categoria (Desktop) ===== */
+.priority-1 {
+    background-color: #ffdddd;
+    border-left: 5px solid #d32f2f;
+}
+.priority-2 {
+    background-color: #e0f7fa;
+    border-left: 5px solid #0288d1;
+}
+.priority-3 {
+    background-color: #fff9c4;
+    border-left: 5px solid #fbc02d;
+}
+.priority-4 {
+    background-color: #dcedc8;
+    border-left: 5px solid #388e3c;
+}
+.priority-5 {
+    background-color: #ede7f6;
+    border-left: 5px solid #7b1fa2;
+}
+
+/* ===== Responsivo (Mobile: 50x50 quadrados) ===== */
+@media (max-width: 800px) {
+    .days-week {
+        grid-template-columns: repeat(7, 50px);
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .days-week .full {
+        display: none;
+    }
+    .days-week .abbr {
+        display: inline;
+        font-size: 14px;
+    }
+
+    .days-week span {
+        width: 50px;
+        padding: 0;
+    }
+
+    .calendar-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .calendar-header h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .btn-add-event {
+        width: 100%;
+        text-align: center;
+    }
+
+    .numbers-days {
+        grid-template-columns: repeat(7, 50px);
+        place-content: center;
+    }
+
+    .numbers-days span {
+        width: 50px;
+        height: 50px;
+        padding: 0;
+    }
+
+    .event-title {
+        display: none;
+    }
+
+    .day-number {
+        position: static;
+        font-size: 16px;
+        font-weight: bold;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+    }
+
+    .priority-1 {
+        background-color: #f44336 !important;
+        color: #fff;
+        border-left: none;
+    }
+    .priority-2 {
+        background-color: #0288d1 !important;
+        color: #fff;
+        border-left: none;
+    }
+    .priority-3 {
+        background-color: #fbc02d !important;
+        color: #000;
+        border-left: none;
+    }
+    .priority-4 {
+        background-color: #388e3c !important;
+        color: #fff;
+        border-left: none;
+    }
+    .priority-5 {
+        background-color: #7b1fa2 !important;
+        color: #fff;
+        border-left: none;
+    }
 }

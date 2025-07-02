@@ -28,12 +28,12 @@ class CalendarForm(FlaskForm):
     title = StringField("Título", validators=[DataRequired()])
     description = TextAreaField("Descrição")
     data = DateTimeLocalField("Data e Hora", format="%Y-%m-%dT%H:%M", validators=[DataRequired()])
-    category = SelectField("Categoria", choices=[
-        ("trabalho", "Trabalho"),
-        ("estudo", "Estudo"),
-        ("lazer", "Lazer"),
-        ("saude", "Saúde"),
-        ("outros", "Outros")
+    category = SelectField("Prioridade", choices=[
+        ("1", "Muito Baixa"),
+        ("2", "Baixa"),
+        ("3", "Média"),
+        ("4", "Alta"),
+        ("5", "Muito Alta")
     ], validators=[DataRequired()])
     warning = BooleanField("Aviso")
     submit = SubmitField("Adicionar Evento")

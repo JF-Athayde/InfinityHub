@@ -1,0 +1,136 @@
+/* Container principal */
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background-color: #fff;
+  padding: 30px 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  font-family: 'Poppins', sans-serif;
+  color: #222;
+}
+
+/* Título */
+.container h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Cada grupo de input + label */
+.mb-3 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+/* Label sempre em cima, espaçamento embaixo */
+.mb-3 > label {
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Inputs e textarea */
+.form-control {
+  font-size: 1rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #4a6daa;
+  box-shadow: 0 0 5px rgba(74,109,170,0.5);
+  outline: none;
+}
+
+/* Área de texto ajustada */
+.form-control[rows] {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Checkbox: texto à esquerda, input à direita */
+.form-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+  gap: 10px;
+}
+
+/* Label do checkbox primeiro, ocupando espaço */
+.form-check label {
+  order: 1;
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+/* Input do checkbox à direita */
+.form-check input {
+  order: 2;
+  flex-shrink: 0;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* Botão enviar */
+.btn-primary {
+  background-color: #4a6daa;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  width: 100%;
+  font-size: 1.1rem;
+}
+
+.btn-primary:hover {
+  background-color: #3a5b8a;
+}
+
+/* Link voltar */
+.btn-link {
+  display: block;
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #4a6daa;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.btn-link:hover {
+  color: #3a5b8a;
+  text-decoration: underline;
+}
+
+/* Mensagens de erro */
+.form-text.text-danger {
+  font-size: 0.875rem;
+  color: #d32f2f;
+  margin-top: 0.25rem;
+}
+
+/* Responsivo */
+@media (max-width: 480px) {
+  .container {
+    margin: 20px 15px;
+    padding: 20px 20px;
+  }
+
+  .btn-primary {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}

@@ -1,48 +1,113 @@
-document.addEventListener('DOMContentLoaded', function() {
-  var calendarEl = document.getElementById('calendar');
+document.addEventListener('DOMContentLoaded', function () {
+    const numbersDaysContainer = document.querySelector('.numbers-days');
+    const monthYearLabel = document.getElementById('month-year');
+    const prevBtn = document.getElementById('prev-month');
+    const nextBtn = document.getElementById('next-month');
 
-  var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    headerToolbar: {
-      left: 'prev,next today',
-      center: 'title',
-      right: ''
-    },
-    events: "/calendar/events",
-    eventClassNames: function(arg) {
-      // Define classes baseadas na categoria para colorir
-      let cat = arg.event.extendedProps.category?.toLowerCase() || 'outro';
-      return ['fc-event-categoria-' + cat];
-    },
-    eventDidMount: function(info) {
-      // Tooltip no hover mostrando descrição
-      if (info.event.extendedProps.description) {
-        let tooltip = document.createElement('div');
-        tooltip.className = 'event-tooltip';
-        tooltip.textContent = info.event.extendedProps.description;
+    let currentDate = new Date();
 
-        info.el.addEventListener('mouseenter', function(e) {
-          document.body.appendChild(tooltip);
-          tooltip.style.top = (e.pageY + 5) + 'px';
-          tooltip.style.left = (e.pageX + 5) + 'px';
+    async function fetchEvents(year, month) {
+        try {
+            const response = await fetch('/calendar/events');
+            if (!response.ok) throw new Error('Erro ao buscar eventos');
+            const allEvents = await response.json();
+            // Filtrar eventos do mês/ano
+            return allEvents.filter(event => {
+                const eventDate = new Date(event.start);
+                return eventDate.getFullYear() === year && eventDate.getMonth() === month;
+            });
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
+    }
+
+    async function renderCalendar(date) {
+        numbersDaysContainer.innerHTML = '';
+
+        const year = date.getFullYear();
+        const month = date.getMonth();
+
+        const monthNames = [
+            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+        ];
+        monthYearLabel.textContent = `${monthNames[month]} ${year}`;
+
+        // Corrigir: no JS, getDay() domingo=0 ... sábado=6
+        // Queremos segunda=0 ... domingo=6
+        let firstDay = new Date(year, month, 1).getDay();
+        firstDay = (firstDay + 6) % 7; // Ajuste para segunda = 0
+
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const events = await fetchEvents(year, month);
+        const eventsByDay = new Map();
+
+        events.forEach(event => {
+            const day = new Date(event.start).getDate();
+            if (!eventsByDay.has(day)) {
+                eventsByDay.set(day, []);
+            }
+            eventsByDay.get(day).push(event);
         });
 
-        info.el.addEventListener('mousemove', function(e) {
-          tooltip.style.top = (e.pageY + 5) + 'px';
-          tooltip.style.left = (e.pageX + 5) + 'px';
-        });
+        // Espaços vazios antes do primeiro dia
+        for (let i = 0; i < firstDay; i++) {
+            const emptySpan = document.createElement('span');
+            emptySpan.classList.add('empty-day');
+            numbersDaysContainer.appendChild(emptySpan);
+        }
 
-        info.el.addEventListener('mouseleave', function() {
-          tooltip.remove();
-        });
-      }
-    },
-    eventContent: function(arg) {
-      // Customiza o conteúdo do evento para mostrar só o título (sem bola)
-      return { html: arg.event.title };
-    },
-    dayMaxEvents: 3 // mostra no máximo 3 eventos por dia, depois "+X"
-  });
+        // Dias do mês
+        for (let day = 1; day <= daysInMonth; day++) {
+            const span = document.createElement('span');
+            span.setAttribute('data-day', day);
 
-  calendar.render();
+            const dayEvents = eventsByDay.get(day) || [];
+            dayEvents.sort((a, b) => Number(b.category) - Number(a.category));
+
+            const titles = dayEvents.map(e => e.title).join(', ');
+            const priorityClass = dayEvents.length ? `priority-${dayEvents[0].category}` : '';
+
+            if (priorityClass) {
+                span.classList.add(priorityClass);
+            }
+
+            const dayNumberDiv = document.createElement('div');
+            dayNumberDiv.classList.add('day-number');
+            dayNumberDiv.textContent = day;
+
+            const eventTitleDiv = document.createElement('div');
+            eventTitleDiv.classList.add('event-title');
+            eventTitleDiv.textContent = titles;
+
+            span.appendChild(dayNumberDiv);
+            span.appendChild(eventTitleDiv);
+
+            span.addEventListener('click', () => {
+                if (dayEvents.length > 0) {
+                    // Vai para a página do dia com eventos
+                    window.location.href = `/calendar/day/${year}/${month + 1}/${day}`;
+                } else {
+                    // Vai para adicionar evento já preenchido com a data
+                    window.location.href = `/add_event?dia=${day}&mes=${month + 1}&ano=${year}`;
+                }
+            });
+
+            numbersDaysContainer.appendChild(span);
+        }
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        renderCalendar(currentDate);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        renderCalendar(currentDate);
+    });
+
+    renderCalendar(currentDate);
 });

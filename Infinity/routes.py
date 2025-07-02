@@ -41,6 +41,20 @@ def calendar():
 @login_required
 def add_event():
     form = CalendarForm()
+
+    # Pré-preencher o campo de data se dia/mes/ano forem passados na URL
+    dia = request.args.get('dia')
+    mes = request.args.get('mes')
+    ano = request.args.get('ano')
+
+    if dia and mes and ano:
+        try:
+            from datetime import date
+            data_preenchida = date(int(ano), int(mes), int(dia))
+            form.data.data = data_preenchida
+        except ValueError:
+            pass  # ignora se a data for inválida
+
     if form.validate_on_submit():
         novo_evento = Calendar(
             user_id=current_user.id,
@@ -67,6 +81,20 @@ def calendar_events():
         "description": evento.description,
         "category": evento.category
     } for evento in eventos])
+
+@app.route('/calendar/day/<int:ano>/<int:mes>/<int:dia>')
+@login_required
+def events_by_day(ano, mes, dia):
+    from datetime import date
+    data = date(ano, mes, dia)
+    print('real data:', data)
+    eventos = Calendar.query.filter_by(user_id=current_user.id, data=data).all()
+    
+    a = Calendar.query.filter_by(user_id=current_user.id).all()
+    for b in a:
+        print(b.day_month_year)
+    
+    return render_template('events_day.html', eventos=eventos, data=data, user=current_user)
 
 @app.route('/profile/<username>')
 @login_required

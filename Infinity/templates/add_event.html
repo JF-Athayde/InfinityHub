@@ -2,41 +2,51 @@
 
 {% block title %}Adicionar Evento | InfinityHub{% endblock %}
 
-{% block content %}
-<h2>Adicionar Evento</h2>
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar/add.css') }}">
+{% endblock %}
 
-<form method="POST" novalidate>
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Adicionar Evento</h2>
+
+  <form method="POST" novalidate autocomplete="off">
     {{ form.hidden_tag() }}
 
-    <div>
-      <label for="data">Data e Hora:</label><br>
+    <div class="mb-3">
+      <label for="data" class="form-label">Data e Hora:</label>
       {{ form.data(class="form-control") }}
-      {% if form.data.errors %} <small style="color:red;">{{ form.data.errors[0] }}</small>{% endif %}
+      {% if form.data.errors %}
+        <div class="form-text text-danger">{{ form.data.errors[0] }}</div>
+      {% endif %}
     </div>
 
-    <div>
-      <label for="title">Título:</label><br>
+    <div class="mb-3">
+      <label for="title" class="form-label">Título:</label>
       {{ form.title(class="form-control") }}
-      {% if form.title.errors %} <small style="color:red;">{{ form.title.errors[0] }}</small>{% endif %}
+      {% if form.title.errors %}
+        <div class="form-text text-danger">{{ form.title.errors[0] }}</div>
+      {% endif %}
     </div>
 
-    <div>
-      <label for="description">Descrição (opcional):</label><br>
+    <div class="mb-3">
+      <label for="description" class="form-label">Descrição (opcional):</label>
       {{ form.description(class="form-control", rows="3") }}
     </div>
 
-    <div>
-      <label for="category">Categoria:</label><br>
+    <div class="mb-3">
+      <label for="category" class="form-label">Categoria:</label>
       {{ form.category(class="form-control") }}
     </div>
 
-    <div>
-      <label for="warning">Aviso:</label>
-      {{ form.warning() }}
+    <div class="form-check mb-3">
+      {{ form.warning(class="form-check-input") }}
+      <label for="warning" class="form-check-label">Mostrar aviso no dia do evento</label>
     </div>
 
-    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Adicionar Evento</button>
-</form>
+    <button type="submit" class="btn btn-primary">Adicionar Evento</button>
+  </form>
 
-<a href="{{ url_for('calendar') }}" style="display:block; margin-top: 1rem;">Voltar para o Calendário</a>
+  <a href="{{ url_for('calendar') }}" class="btn btn-link mt-3">Voltar para o Calendário</a>
+</div>
 {% endblock %}
