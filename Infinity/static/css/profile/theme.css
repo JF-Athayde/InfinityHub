@@ -1,0 +1,71 @@
+/* =================== TEMA CLARO =================== */
+body.light {
+    --bg-color: #f0f0f0;
+    --text-color: #222;
+    --header-bg: #ffffff;
+    --footer-bg: #ffffff;
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0, 0, 0, 0.05);
+    --btn-bg: #4a90e2;
+    --btn-text: #fff;
+    --link-color: #4a90e2;
+}
+
+/* =================== TEMA ESCURO =================== */
+body.dark {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --header-bg: #1e1e1e;
+    --footer-bg: #1e1e1e;
+    --card-bg: #1f1f1f;
+    --card-shadow: rgba(0, 0, 0, 0.5);
+    --btn-bg: #64b5f6;
+    --btn-text: #000;
+    --link-color: #90caf9;
+}
+
+body.dark .profile-page {
+    background-color: var(--card-bg);
+}
+
+body.dark .profile-info h2, body.dark .profile-info p{
+    color: white;
+}
+
+/* =================== APLICAÇÃO GERAL =================== */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+/* Botão */
+.btn-edit {
+    display: inline-block;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-edit:hover {
+    filter: brightness(0.95);
+}
+
+/* Links */
+a {
+    color: var(--link-color);
+}
+
+/* Cartões */
+.profile-card {
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 12px var(--card-shadow);
+    border-radius: 12px;
+    padding: 30px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}

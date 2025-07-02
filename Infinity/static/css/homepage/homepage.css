@@ -16,11 +16,12 @@ body.light .hero {
     justify-content: space-between;
     padding: 4rem 2rem;
     gap: 2.5rem;
-    border-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
     flex-wrap: wrap;
     color: var(--color-white);
     transition: background 0.3s, color 0.3s;
-    background-image: linear-gradient(135deg, var(--color-black), var(--color-gray));
+    background-image: linear-gradient(135deg, #414141, #929292);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -265,5 +266,9 @@ body.dark .feature-card p {
 
     #r1 {
         display: inline-block;
+    }
+
+    body .hero {
+        height: calc(100vh - 100px);
     }
 }

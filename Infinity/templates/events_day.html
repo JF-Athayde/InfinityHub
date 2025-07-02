@@ -1,23 +1,35 @@
 {% extends "base.html" %}
 {% block title %}Eventos de {{ data.strftime('%d/%m/%Y') }}{% endblock %}
 
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar/event.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar/theme.css') }}">
+{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h1>Eventos do dia {{ data.strftime('%d/%m/%Y') }}</h1>
+<div class="eventos-container">
+    <h1 class="titulo-principal">📅 Eventos do dia {{ data.strftime('%d/%m/%Y') }}</h1>
     
     {% if eventos %}
         <ul class="lista-eventos">
             {% for evento in eventos %}
-                <li>
-                    <h3>{{ evento.title }}</h3>
-                    <p><strong>Descrição:</strong> {{ evento.description }}</p>
-                    <p><strong>Categoria:</strong> {{ evento.category }}</p>
-                    <p><strong>Alerta:</strong> {{ 'Sim' if evento.warning else 'Não' }}</p>
+                <li class="card-evento priority-{{ evento.category }}">
+                    <h3 class="titulo-evento">{{ evento.title }}</h3>
+                    <p class="descricao-evento">{{ evento.description }}</p>
+                    <div class="detalhes-evento">
+                        <span class="categoria">Importância: {{ evento.category }} / 5</span>
+                        <span class="alerta">
+                            {{ '✅ Alerta Ativado' if evento.warning else '❌ Sem Alerta' }}
+                        </span>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>Nenhum evento encontrado para este dia.</p>
+        <p class="sem-eventos">Nenhum evento encontrado para este dia.</p>
     {% endif %}
+
+    <a href="{{ url_for('calendar') }}" style="text-decoration: none;">Voltar Para o Calendario Pessoal</a>
+
 </div>
 {% endblock %}

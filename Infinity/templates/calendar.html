@@ -4,6 +4,7 @@
 
 {% block head_extra %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/calendar/calendar.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/calendar/theme.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -14,7 +15,9 @@
             <h1 id="month-year">Mês Ano</h1>
             <button id="next-month" aria-label="Próximo mês">&gt;</button>
         </div>
+
         <a href="{{ url_for('add_event') }}" class="btn-add-event">+ Adicionar Evento</a>
+
     </div>
 
     <div class="wraper">

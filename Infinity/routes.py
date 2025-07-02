@@ -87,12 +87,7 @@ def calendar_events():
 def events_by_day(ano, mes, dia):
     from datetime import date
     data = date(ano, mes, dia)
-    print('real data:', data)
-    eventos = Calendar.query.filter_by(user_id=current_user.id, data=data).all()
-    
-    a = Calendar.query.filter_by(user_id=current_user.id).all()
-    for b in a:
-        print(b.day_month_year)
+    eventos = Calendar.query.filter_by(user_id=current_user.id, day_month_year=data).all()
     
     return render_template('events_day.html', eventos=eventos, data=data, user=current_user)
 

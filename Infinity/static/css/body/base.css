@@ -33,18 +33,23 @@ body.dark {
   color: var(--text-dark);
 }
 
-/* Header */
-
+/* Header geral */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #7b1e1e, var(--color-6)); /* degradê vermelho escuro */
+  background: linear-gradient(135deg, #7b1e1e, var(--color-6));
   color: white;
   flex-wrap: wrap;
+  height: 136px;
 }
 
+main {
+  min-height: 100vh;
+}
+
+/* Esquerda: logo + título */
 .header-left {
   display: flex;
   align-items: center;
@@ -55,16 +60,158 @@ header {
   height: 50px;
 }
 
+/* HEADER RIGHT GERAL */
 .header-right {
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
+  justify-content: center; /* Muda de flex-start para center */
+  align-items: flex-end;
+  gap: 0.8rem;
+  height: 100%; /* Garante altura total do header */
 }
 
+.header-right button {
+  margin-top: 20px;
+}
+
+/* TOGGLE */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 50px;
+  height: 26px;
+  cursor: pointer;
+  margin-top: 0; /* Removido para deixar centralizado */
+}
+
+.theme-toggle input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.theme-toggle .slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--color-3);
+  border-radius: 15px;
+  transition: background-color 0.3s;
+}
+
+.theme-toggle .slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  top: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.theme-toggle input:checked + .slider {
+  background-color: var(--color-6);
+}
+
+.theme-toggle input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+/* =============================
+   Toggle Dark/Light Mode Styles
+   ============================= */
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: inherit;
+  user-select: none;
+  margin-bottom: 25px;
+}
+
+/* Esconde o checkbox real */
+.theme-toggle input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+}
+
+/* Slider do toggle */
+.theme-toggle .slider {
+  position: relative;
+  width: 50px;
+  height: 26px;
+  background-color: #c6c6c6;
+  border-radius: 30px;
+  transition: background-color 0.3s ease;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+}
+
+/* Circulo do slider */
+.theme-toggle .slider::before {
+  content: "☀️";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  left: 2px;
+  top: 2px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: #f39c12;
+  transition: transform 0.3s ease, content 0.3s ease;
+}
+
+/* Quando marcado (modo dark) */
+.theme-toggle input[type="checkbox"]:checked + .slider {
+  background-color: #4a6daa;
+}
+
+.theme-toggle input[type="checkbox"]:checked + .slider::before {
+  transform: translateX(24px);
+  content: "🌙";
+  color: #f1c40f;
+}
+
+/* Label texto */
+.theme-toggle label {
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* Perfil do usuário */
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.2s ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.user-profile:hover {
+  background-color: var(--color-3);
 }
 
 .user-profile img {
@@ -72,44 +219,55 @@ header {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+  border: 2px solid var(--color-6);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
 }
 
 .user-info span {
-  font-weight: bold;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-size: 1.2rem;
+.user-info small {
+  font-size: 0.75rem;
+  color: var(--color-2);
+  font-style: italic;
 }
 
-.theme-toggle input {
-  transform: scale(1.2);
-}
-
-/* Main */
-
-main {
-  padding: 2rem;
-  min-height: 100vh;
-}
-
-/* Footer */
-
+/* Rodapé */
 footer {
+  background-color: #1a1a1a;
+  color: #f0f0f0;
   text-align: center;
-  padding: 1rem;
-  background-color: var(--color-9);
-  color: white;
-  margin-top: 2rem;
+  padding: 20px 15px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  border-top: 3px solid #2c2c2c;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsividade */
+footer p {
+  margin: 0;
+}
 
-@media (max-width: 768px) {
+@media (max-width: 550px) {
+  .header-right {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .user-profile {
+    gap: 0.5rem;
+  }
+
   .theme-toggle {
-    margin-top: 0.5rem;
+    margin-top: 0; /* Zera margem no mobile pra alinhar com o perfil */
   }
 }

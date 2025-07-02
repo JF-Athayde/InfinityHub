@@ -1,0 +1,373 @@
+/* =============================
+   THEME.CSS — Light & Dark Mode
+   ============================= */
+
+/* RESET DE CORES POR PRIORIDADE */
+.priority-1 { border-left-color: #4caf50; }
+.priority-2 { border-left-color: #8bc34a; }
+.priority-3 { border-left-color: #ffc107; }
+.priority-4 { border-left-color: #ff9800; }
+.priority-5 { border-left-color: #f44336; }
+
+/* ===== LIGHT MODE (default) ===== */
+body.light {
+    background-color: #f0f0f0;
+    color: #222;
+}
+
+/* Calendar Container */
+body.light .calendar-container,
+body.light .eventos-container {
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Text */
+body.light .calendar-header h1,
+body.light .titulo-principal,
+body.light .day-number,
+body.light .event-title {
+    color: #222;
+}
+
+/* Buttons */
+body.light .calendar-header button,
+body.light .btn-add-event {
+    background-color: #4a6daa;
+    color: white;
+}
+
+body.light .calendar-header button:hover {
+    background-color: #3a5b8a;
+}
+
+body.light .btn-add-event {
+    background-color: #4caf50;
+}
+
+body.light .btn-add-event:hover {
+    background-color: #449944;
+}
+
+/* Dias do calendário */
+body.light .numbers-days span {
+    background-color: #f9f9f9;
+    color: #222;
+}
+
+body.light .numbers-days span:hover {
+    background-color: #e0e0e0;
+}
+
+body.light .empty-day {
+    background-color: transparent;
+    cursor: default;
+}
+
+/* Lista de Eventos */
+body.light .lista-eventos {
+    list-style: none;
+    padding: 0;
+}
+
+body.light .card-evento {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 6px solid #3f51b5;
+    transition: background-color 0.3s ease;
+}
+
+body.light .descricao-evento {
+    color: #555;
+}
+
+body.light .detalhes-evento span {
+    margin-right: 15px;
+    color: #333;
+}
+
+body.light .sem-eventos {
+    color: #777;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+    background-color: #121212;
+    color: #eee;
+}
+
+/* Containers */
+body.dark .calendar-container,
+body.dark .eventos-container {
+    background-color: #1e1e1e;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+/* Text */
+body.dark .calendar-header h1,
+body.dark .titulo-principal,
+body.dark .day-number,
+body.dark .event-title {
+    color: #eee;
+}
+
+/* Buttons */
+body.dark .calendar-header button {
+    background-color: #2e4a7f;
+    color: #fff;
+}
+
+body.dark .calendar-header button:hover {
+    background-color: #1c2e4d;
+}
+
+body.dark .btn-add-event {
+    background-color: #388e3c;
+    color: #fff;
+}
+
+body.dark .btn-add-event:hover {
+    background-color: #2c6f2f;
+}
+
+/* Dias do calendário */
+body.dark .numbers-days span {
+    background-color: #2a2a2a;
+    color: #fff;
+}
+
+body.dark .numbers-days span:hover {
+    background-color: #3a3a3a;
+}
+
+body.dark .empty-day {
+    background-color: transparent;
+    cursor: default;
+}
+
+body.dark .days-week span {
+    color: #ccc;
+}
+
+/* Lista de Eventos */
+body.dark .lista-eventos {
+    list-style: none;
+    padding: 0;
+}
+
+body.dark .card-evento {
+    background-color: #2d2d2d;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border-left: 6px solid #7986cb;
+    transition: background-color 0.3s ease;
+}
+
+body.dark .descricao-evento {
+    color: #ccc;
+}
+
+body.dark .detalhes-evento span {
+    margin-right: 15px;
+    color: #ddd;
+}
+
+body.dark .sem-eventos {
+    color: #aaa;
+}
+
+/* Prioridades com contraste para modo escuro */
+body.dark .priority-1 {
+    background-color: #b71c1c !important;
+    color: #fff;
+}
+
+body.dark .priority-2 {
+    background-color: #01579b !important;
+    color: #fff;
+}
+
+body.dark .priority-3 {
+    background-color: #d4a325 !important;
+    color: #000;
+}
+
+body.dark .priority-4 {
+    background-color: #2e7d32 !important;
+    color: #fff;
+}
+
+body.dark .priority-5 {
+    background-color: #6a1b9a !important;
+    color: #fff;
+}
+
+/* =============================
+   theme.css — Light & Dark Mode
+   ============================= */
+
+/* Reset de cores por categoria */
+.priority-1 { border-left-color: #4caf50; }
+.priority-2 { border-left-color: #8bc34a; }
+.priority-3 { border-left-color: #ffc107; }
+.priority-4 { border-left-color: #ff9800; }
+.priority-5 { border-left-color: #f44336; }
+
+/* ===== LIGHT MODE (padrão) ===== */
+body.light {
+  background-color: #f0f0f0;
+  color: #222;
+}
+
+/* Container do formulário */
+body.light .container {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Títulos e textos */
+body.light h2,
+body.light label,
+body.light .form-label {
+  color: #222;
+}
+
+body.light .form-control {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #222;
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: border-color 0.3s ease;
+}
+
+body.light .form-control:focus {
+  border-color: #4a6daa;
+  outline: none;
+  box-shadow: 0 0 5px #4a6daa66;
+}
+
+/* Botões */
+body.light .btn-primary {
+  background-color: #4a6daa;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+body.light .btn-primary:hover {
+  background-color: #3a5b8a;
+}
+
+body.light .btn-link {
+  color: #4a6daa;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+body.light .btn-link:hover {
+  color: #3a5b8a;
+  text-decoration: none;
+}
+
+/* Mensagem de erro */
+body.light .text-danger {
+  color: #d32f2f;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Checkbox label */
+body.light .form-check-label {
+  color: #222;
+  font-weight: 500;
+}
+
+/* ===== DARK MODE ===== */
+body.dark {
+  background-color: #121212;
+  color: #eee;
+}
+
+body.dark .container {
+  background-color: #1e1e1e;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+}
+
+body.dark h2,
+body.dark label,
+body.dark .form-label {
+  color: #eee;
+}
+
+body.dark .form-control {
+  background-color: #2a2a2a;
+  border: 1px solid #555;
+  color: #eee;
+  border-radius: 6px;
+  padding: 8px 12px;
+  transition: border-color 0.3s ease;
+}
+
+body.dark .form-control:focus {
+  border-color: #4a6daa;
+  outline: none;
+  box-shadow: 0 0 5px #4a6daa99;
+}
+
+body.dark .btn-primary {
+  background-color: #4a6daa;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+body.dark .btn-primary:hover {
+  background-color: #3a5b8a;
+}
+
+body.dark .btn-link {
+  color: #4a6daa;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+body.dark .btn-link:hover {
+  color: #3a5b8a;
+  text-decoration: none;
+}
+
+body.dark .text-danger {
+  color: #ff6666;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+body.dark .form-check-label {
+  color: #eee;
+  font-weight: 500;
+}
+
+/* Prioridades com cores fortes para dark */
+body.dark .priority-1 { border-left-color: #81c784 !important; }
+body.dark .priority-2 { border-left-color: #aed581 !important; }
+body.dark .priority-3 { border-left-color: #ffd54f !important; }
+body.dark .priority-4 { border-left-color: #ffb74d !important; }
+body.dark .priority-5 { border-left-color: #e57373 !important; }
