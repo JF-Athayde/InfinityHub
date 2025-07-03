@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Tarefas | InfinityHub{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tasks/tasks.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="tasks-container">
+    <h1 class="tasks-title">Minhas Tarefas</h1>
+
+    <!-- Formulário para adicionar nova tarefa -->
+    <form method="POST" class="task-form">
+        {{ csrf_token() }}
+        <input type="text" name="description" placeholder="Digite uma nova tarefa..." required>
+        <button type="submit" class="add-task-btn">Adicionar</button>
+    </form>
+
+    <!-- Lista de tarefas -->
+    <ul class="task-list">
+        {% for task in tasks %}
+        <li class="task-item">
+            <span>{{ task.description }}</span>
+
+            <!-- Formulário de exclusão -->
+            <form method="POST" action="{{ url_for('delete_task', task_id=task.id) }}" class="delete-form" onsubmit="return confirm('Deseja realmente excluir esta tarefa?');">
+                {{ csrf_token() }}
+                <button type="submit" class="delete-btn" aria-label="Excluir tarefa">&times;</button>
+            </form>
+        </li>
+        {% else %}
+        <li class="task-empty">Nenhuma tarefa encontrada.</li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}

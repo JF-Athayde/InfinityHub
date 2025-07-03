@@ -8,7 +8,6 @@ from flask_login import UserMixin
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///comunidade.db"
 app.config["SECRET_KEY"] = "chave_segura_grande"
-app.config["UPLOAD_FOLDER"] = rf"static\assets\images"
 app.config["UPLOAD_FOLDER"] = r"static/assets/images"
 
 csrf = CSRFProtect(app)

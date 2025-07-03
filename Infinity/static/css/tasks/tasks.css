@@ -1,0 +1,110 @@
+:root {
+    --background-light: #f9f9f9;
+    --task-bg: #ffffff;
+    --task-border: #dddddd;
+    --primary-color: var(--color-4, #5ba5a9);
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
+}
+
+.tasks-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--color-2);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tasks-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-1);
+    margin-bottom: 1.5rem;
+}
+
+/* Formulário de adicionar tarefa */
+.task-form {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.task-form input {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+.add-task-btn {
+    padding: 0.75rem 1.2rem;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-task-btn:hover {
+    background-color: #46898b;
+}
+
+/* Lista de tarefas */
+.task-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--task-bg);
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--task-border);
+    transition: background-color 0.3s;
+}
+
+.task-item span {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+    word-break: break-word;
+}
+
+.task-empty {
+    text-align: center;
+    color: #555;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    border-radius: 8px;
+}
+
+/* Botão de excluir */
+.delete-form {
+    margin: 0;
+}
+
+.delete-btn {
+    background: transparent;
+    border: none;
+    color: var(--danger-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.delete-btn:hover {
+    color: var(--danger-hover);
+}

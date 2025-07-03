@@ -190,6 +190,44 @@ body {
     border-left: 5px solid #8f6fbe;
 }
 
+#googleEventsContainer {
+    margin-top: 20px;
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+}
+.google-event {
+    background-color: #e3f2fd;
+    border-radius: 4px;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+
+/* Botões Google Calendar */
+#btnGoogleAuth,
+#btnSyncGoogle {
+    font-size: 1rem;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-right: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+#btnGoogleAuth:hover,
+#btnSyncGoogle:hover {
+    background-color: #3367d6;
+}
+
+.google-btn-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+}
+
 /* ===== Responsivo (Mobile: 50x50 quadrados) ===== */
 @media (max-width: 800px) {
     .days-week {

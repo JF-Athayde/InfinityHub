@@ -37,3 +37,8 @@ class CalendarForm(FlaskForm):
     ], validators=[DataRequired()])
     warning = BooleanField("Aviso")
     submit = SubmitField("Adicionar Evento")
+
+
+class TaskForm(FlaskForm):
+    description = StringField('Descrição', validators=[DataRequired()])
+    submit = SubmitField('Adicionar')

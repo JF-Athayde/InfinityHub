@@ -1,13 +1,33 @@
-from flask import render_template, redirect, url_for, flash, request
-from flask_login import login_user, logout_user, login_required, current_user
+from flask import (
+    render_template, redirect, url_for, flash, request, session,
+    jsonify, current_app
+)
+from flask_login import (
+    login_user, logout_user, login_required, current_user
+)
 from werkzeug.security import check_password_hash, generate_password_hash
-from Infinity import app, database
-from Infinity.models import User, Calendar
-from Infinity.form import LoginForm, RegisterForm, ProfileForm, CalendarForm
 from werkzeug.utils import secure_filename
-from flask import current_app
+from Infinity import app, database
+from Infinity.models import User, Calendar, Task
+from Infinity.form import LoginForm, RegisterForm, ProfileForm, CalendarForm
+
 import os
-from flask import jsonify
+import pathlib
+from datetime import date
+
+# --- Google OAuth2 ---
+from google_auth_oauthlib.flow import Flow
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
+
+# --- Configurações Google OAuth ---
+GOOGLE_CLIENT_SECRETS_FILE = os.path.join(
+    pathlib.Path(__file__).parent, "client_secret.json"
+)
+SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+REDIRECT_URI = 'http://localhost:5000/oauth2callback'
+
+# ======================== ROTAS GERAIS ========================
 
 @app.route('/')
 def homepage():
@@ -26,34 +46,44 @@ def contacts():
 def notes():
     return render_template('notes.html')
 
-@app.route('/tasks')
-@login_required
-def tasks():
-    return render_template('tasks.html')
+@app.route('/tasks', methods=['GET', 'POST'])
+def tasks_view():
+    if request.method == 'POST':
+        description = request.form.get('description', '').strip()
+        if description:
+            new_task = Task(description=description)
+            database.session.add(new_task)
+            database.session.commit()
+        return redirect(url_for('tasks_view'))
+
+    tasks = Task.query.order_by(Task.id.desc()).all()
+    return render_template('tasks.html', tasks=tasks)
+
+@app.route('/tasks/delete/<int:task_id>', methods=['POST'])
+def delete_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    database.session.delete(task)
+    database.session.commit()
+    return redirect(url_for('tasks_view'))
 
 @app.route('/calendar')
 @login_required
 def calendar():
-    # Página apenas mostra o calendário visual
     return render_template('calendar.html', user=current_user)
 
 @app.route('/add_event', methods=['GET', 'POST'])
 @login_required
 def add_event():
     form = CalendarForm()
-
-    # Pré-preencher o campo de data se dia/mes/ano forem passados na URL
     dia = request.args.get('dia')
     mes = request.args.get('mes')
     ano = request.args.get('ano')
 
     if dia and mes and ano:
         try:
-            from datetime import date
-            data_preenchida = date(int(ano), int(mes), int(dia))
-            form.data.data = data_preenchida
+            form.data.data = date(int(ano), int(mes), int(dia))
         except ValueError:
-            pass  # ignora se a data for inválida
+            pass
 
     if form.validate_on_submit():
         novo_evento = Calendar(
@@ -75,31 +105,29 @@ def add_event():
 @login_required
 def calendar_events():
     eventos = Calendar.query.filter_by(user_id=current_user.id).all()
-    return jsonify([{
-        "title": evento.title,
-        "start": evento.data.isoformat(),
-        "description": evento.description,
-        "category": evento.category
-    } for evento in eventos])
+    return jsonify([
+        {
+            "title": evento.title,
+            "start": evento.data.isoformat(),
+            "description": evento.description,
+            "category": evento.category
+        } for evento in eventos
+    ])
 
 @app.route('/calendar/day/<int:ano>/<int:mes>/<int:dia>')
 @login_required
 def events_by_day(ano, mes, dia):
-    from datetime import date
     data = date(ano, mes, dia)
     eventos = Calendar.query.filter_by(user_id=current_user.id, day_month_year=data).all()
-    
     return render_template('events_day.html', eventos=eventos, data=data, user=current_user)
 
 @app.route('/profile/<username>')
 @login_required
 def profile_user(username):
     user = User.query.filter_by(username=username).first()
-
     if not user:
         flash('Usuário não encontrado.', 'danger')
         return redirect(url_for('homepage'))
-
     return render_template('profile.html', user=user)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -118,7 +146,6 @@ def login():
         else:
             flash('Email ou senha incorretos.', 'danger')
     return render_template('login.html', form=form)
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -147,12 +174,12 @@ def settings():
     if form.validate_on_submit():
         if form.photo.data:
             filename = secure_filename(form.photo.data.filename)
-
-            upload_folder = os.path.join(current_app.root_path, 'static', 'assets', 'profile_pictures')
+            upload_folder = os.path.join(
+                current_app.root_path, 'static', 'assets', 'profile_pictures')
             os.makedirs(upload_folder, exist_ok=True)
             file_path = os.path.join(upload_folder, filename)
             form.photo.data.save(file_path)
-            current_user.photo_url = filename  # salvar só o nome do arquivo no banco
+            current_user.photo_url = filename
 
         current_user.username = form.username.data
         current_user.cargo = form.cargo.data
@@ -161,7 +188,7 @@ def settings():
         database.session.commit()
         flash('Configurações atualizadas com sucesso!', 'success')
         return redirect(url_for('profile_user', username=current_user.username))
-
+    
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.cargo.data = current_user.cargo
@@ -175,3 +202,88 @@ def logout():
     logout_user()
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('homepage'))
+
+# ======================== GOOGLE CALENDAR ========================
+
+@app.route('/authorize')
+@login_required
+def authorize():
+    flow = Flow.from_client_secrets_file(
+        GOOGLE_CLIENT_SECRETS_FILE,
+        scopes=SCOPES,
+        redirect_uri=REDIRECT_URI
+    )
+    authorization_url, state = flow.authorization_url(
+        access_type='offline',
+        include_granted_scopes='true'
+    )
+    session['state'] = state
+    session.modified = True  # Garante que o estado é salvo na sessão
+    return redirect(authorization_url)
+
+@app.route('/oauth2callback')
+@login_required
+def oauth2callback():
+    state = session.get('state')
+    flow = Flow.from_client_secrets_file(
+        GOOGLE_CLIENT_SECRETS_FILE,
+        scopes=SCOPES,
+        state=state,
+        redirect_uri=REDIRECT_URI
+    )
+    flow.fetch_token(authorization_response=request.url)
+
+    credentials = flow.credentials
+    session['credentials'] = {
+        'token': credentials.token,
+        'refresh_token': credentials.refresh_token,
+        'token_uri': credentials.token_uri,
+        'client_id': credentials.client_id,
+        'client_secret': credentials.client_secret,
+        'scopes': credentials.scopes
+    }
+    flash('Conta Google conectada com sucesso!', 'success')
+    return redirect(url_for('calendar'))
+
+def get_google_calendar_events():
+    if 'credentials' not in session:
+        return None
+
+    creds = Credentials(**session['credentials'])
+    service = build('calendar', 'v3', credentials=creds)
+
+    events_result = service.events().list(
+        calendarId='primary',
+        maxResults=20,
+        singleEvents=True,
+        orderBy='startTime',
+        timeMin='2023-01-01T00:00:00Z'
+    ).execute()
+    events = events_result.get('items', [])
+
+    session['credentials'] = {
+        'token': creds.token,
+        'refresh_token': creds.refresh_token,
+        'token_uri': creds.token_uri,
+        'client_id': creds.client_id,
+        'client_secret': creds.client_secret,
+        'scopes': creds.scopes
+    }
+    return events
+
+@app.route('/calendar/events/google')
+@login_required
+def calendar_events_google():
+    events = get_google_calendar_events()
+    if events is None:
+        return jsonify({'error': 'Usuário não autenticado com Google Calendar'}), 401
+
+    simplified_events = [{
+        'id': event.get('id'),
+        'title': event.get('summary', 'Sem título'),
+        'start': event['start'].get('dateTime', event['start'].get('date')),
+        'end': event['end'].get('dateTime', event['end'].get('date'))
+    } for event in events]
+
+    return jsonify(simplified_events)
+

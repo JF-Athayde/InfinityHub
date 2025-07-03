@@ -16,6 +16,10 @@ class User(database.Model, UserMixin):
     bio = database.Column(database.Text)
     photo_url = database.Column(database.String(255), )
 
+    google_token = database.Column(database.Text)          # Armazenar token de acesso
+    google_refresh_token = database.Column(database.Text) # Armazenar refresh token
+    google_token_expiry = database.Column(database.DateTime)  # Prazo de expiração (opcional)
+
 class Calendar(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     user_id = database.Column(database.Integer, database.ForeignKey('user.id'), nullable=False)
@@ -30,9 +34,15 @@ class Calendar(database.Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         if self.data and not self.day_month_year:
-            # Se for datetime, pega só a data
             if hasattr(self.data, 'date'):
                 self.day_month_year = self.data.date()
             else:
-                # Se já for date, usa direto
                 self.day_month_year = self.data
+
+class Task(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    description = database.Column(database.String(255), nullable=False)
+    completed = database.Column(database.Boolean, default=False)
+
+    def __repr__(self):
+        return f'<Task {self.id} - {self.description}>'

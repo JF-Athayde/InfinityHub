@@ -17,8 +17,16 @@
         </div>
 
         <a href="{{ url_for('add_event') }}" class="btn-add-event">+ Adicionar Evento</a>
-
     </div>
+
+    <!-- Botões para integração Google -->
+    <div class="google-btn-wrapper">
+        <button id="btnGoogleAuth" onclick="window.location.href='/authorize'">
+            Conectar ao Google Calendar
+        </button>
+    </div>
+
+
 
     <div class="wraper">
         <div class="days-week">
@@ -32,9 +40,13 @@
         </div>
         <div class="numbers-days"></div>
     </div>
+
+    <!-- Container para eventos Google -->
+    <div id="googleEventsContainer"></div>
 </section>
 {% endblock %}
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/calendar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/google_calendar.js') }}"></script>
 {% endblock %}
