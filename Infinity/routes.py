@@ -13,6 +13,7 @@ from Infinity.form import LoginForm, RegisterForm, ProfileForm, CalendarForm, Fi
 
 import os
 import pathlib
+import json
 from datetime import date, datetime, time, timedelta
 
 # Google OAuth2
@@ -41,7 +42,7 @@ def tasks():
             # Cria nova tarefa associada ao usuário logado
             new_task = Task(
                 description=description,
-                user_id=current_user.id  # <- ESSENCIAL!
+                user_id=current_user.id  # ESSENCIAL!
             )
             database.session.add(new_task)
             database.session.commit()
@@ -66,7 +67,8 @@ def delete_task(task_id):
 @app.route('/calendar')
 @login_required
 def calendar():
-    return render_template('calendar.html', user=current_user)
+    google_authenticated = current_user.get_google_credentials() is not None  # Verifica se o Google Calendar está autenticado
+    return render_template('calendar.html', google_authenticated=google_authenticated, user=current_user)
 
 @app.route('/calendar/events')
 @login_required
@@ -271,14 +273,19 @@ def oauth2callback():
         )
         flow.fetch_token(authorization_response=request.url)
         credentials = flow.credentials
-        session['credentials'] = {
+
+        # Salvar as credenciais no banco de dados, associadas ao usuário logado
+        current_user.set_google_credentials({
             'token': credentials.token,
             'refresh_token': credentials.refresh_token,
             'token_uri': credentials.token_uri,
             'client_id': credentials.client_id,
             'client_secret': credentials.client_secret,
             'scopes': credentials.scopes
-        }
+        })
+
+        database.session.commit()
+
         flash('Google Calendar conectado com sucesso!', 'success')
     except Exception as e:
         flash(f"Erro ao conectar Google Calendar: {e}", 'danger')
@@ -298,10 +305,13 @@ def calendar_events_google():
     } for event in events])
 
 def get_google_calendar_events():
-    if 'credentials' not in session:
+    if not current_user.get_google_credentials():
         return None
-    creds = Credentials(**session['credentials'])
+
+    creds_data = json.loads(current_user.google_credentials)
+    creds = Credentials(**creds_data)
     service = build('calendar', 'v3', credentials=creds)
+
     now = '2023-01-01T00:00:00Z'
     events_result = service.events().list(
         calendarId='primary',
@@ -310,14 +320,18 @@ def get_google_calendar_events():
         singleEvents=True,
         orderBy='startTime'
     ).execute()
-    session['credentials'] = {
+
+    # Atualizar as credenciais se o token foi renovado
+    current_user.set_google_credentials({
         'token': creds.token,
         'refresh_token': creds.refresh_token,
         'token_uri': creds.token_uri,
         'client_id': creds.client_id,
         'client_secret': creds.client_secret,
         'scopes': creds.scopes
-    }
+    })
+    database.session.commit()
+
     return events_result.get('items', [])
 
 def add_event_to_google_calendar(summary, description, start_datetime, end_datetime):
@@ -340,9 +354,5 @@ def add_event_to_google_calendar(summary, description, start_datetime, end_datet
         },
     }
 
-    print("Evento a ser enviado:", event)
-
     created = service.events().insert(calendarId='primary', body=event).execute()
-    print("Evento criado:", created)
-
     return created

@@ -2,6 +2,7 @@ from Infinity import database, login_manager
 from flask_login import UserMixin
 from datetime import datetime
 from sqlalchemy import Date
+import json
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -14,18 +15,26 @@ class User(database.Model, UserMixin):
     password_hash = database.Column(database.String(128), nullable=False)
     cargo = database.Column(database.String(50))
     bio = database.Column(database.Text)
-    photo_url = database.Column(database.String(255), )
+    photo_url = database.Column(database.String(255))
 
-    google_token = database.Column(database.Text)          # Armazenar token de acesso
-    google_refresh_token = database.Column(database.Text) # Armazenar refresh token
-    google_token_expiry = database.Column(database.DateTime)  # Prazo de expiração (opcional)
+    # =================== Google Calendar OAuth2 ===================
+    google_credentials = database.Column(database.Text)  # Para armazenar as credenciais como JSON
+
+    def get_google_credentials(self):
+        if self.google_credentials:
+            return json.loads(self.google_credentials)
+        return None
+
+    def set_google_credentials(self, credentials):
+        self.google_credentials = json.dumps(credentials)
+        database.session.commit()
 
 class Calendar(database.Model):
     id = database.Column(database.Integer, primary_key=True)
     user_id = database.Column(database.Integer, database.ForeignKey('user.id'), nullable=False)
     user = database.relationship('User', backref='calendars')
-    data = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)  # data + hora
-    day_month_year = database.Column(Date, nullable=False)  # **apenas a data, sem hora**
+    data = database.Column(database.DateTime, nullable=False, default=datetime.utcnow)
+    day_month_year = database.Column(Date, nullable=False)
     title = database.Column(database.String(100), nullable=False)
     description = database.Column(database.Text)
     category = database.Column(database.String(50), nullable=False)

@@ -20,11 +20,14 @@
     </div>
 
     <!-- Botões para integração Google -->
+    {% if not google_authenticated %}
     <div class="google-btn-wrapper">
         <button id="btnGoogleAuth" onclick="window.location.href='/authorize'">
             Conectar ao Google Calendar
         </button>
     </div>
+    {% endif %}
+
 
 
 
