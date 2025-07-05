@@ -17,7 +17,7 @@
         <div class="hero-img">
             <img src="{{ url_for('static', filename='assets/images/infinity.png') }}" alt="Ilustração de produtividade">
         </div>
-        <a href="#" class="btn-primary" id="r1">Acessar Calendário</a>
+        <a href="{{ url_for('calendar') }}" class="btn-primary" id="r1">Acessar Calendário</a>
     </section>
     
     <section class="features">
@@ -25,34 +25,36 @@
             <h3>✅ Checklist de Tarefas</h3>
             <p>Acompanhe suas tarefas diárias com marcadores visuais.</p>
         </a>
-        <a href="#" class="feature-card btn-card">
-            <h3>📊 Relatórios de Desempenho</h3>
-            <p>Analise os relatórios de desempenho com gráficos e dados.</p>
-        </a>
-        <a href="#" class="feature-card btn-card">
-            <h3>💬 Fórum Interno</h3>
-            <p>Comunique-se com outros membros da equipe em tempo real.</p>
-        </a>
-        <a href="#" class="feature-card btn-card">
+
+        <a href="{{ url_for('file_center') }}" class="feature-card btn-card">
             <h3>📂 Central de Arquivos</h3>
             <p>Acesse rapidamente documentos e arquivos compartilhados.</p>
         </a>
+
         <a href="{{ url_for('settings') }}" class="feature-card btn-card">
             <h3>⚙️ Configurações</h3>
             <p>Personalize seu perfil e preferências no sistema.</p>
         </a>
+
         <!-- NOVOS BOTÕES -->
-        <a href="https://infinityschool.eadplataforma.app" class="feature-card btn-card">
+        <a href="https://infinityschool.eadplataforma.app" class="feature-card btn-card" target="_blank">
             <h3>🧠 InfinityApp</h3>
             <p>Acesse ferramentas avançadas do ecossistema Infinity.</p>
         </a>
+
         <a href="{{ url_for('calendar') }}" class="feature-card btn-card">
             <h3>👁️ Ver Calendário</h3>
             <p>Consulte todos os seus eventos agendados.</p>
         </a>
+
         <a href="{{ url_for('add_event') }}" class="feature-card btn-card">
             <h3>➕ Adicionar Evento</h3>
             <p>Crie um novo evento para sua agenda.</p>
+        </a>
+
+        <a href="{{ url_for('new_file') }}" class="feature-card btn-card">
+            <h3>📎 Arquivos / Links</h3>
+            <p>Adicione links e documentos compartilhados.</p>
         </a>
     </section>
 </div>

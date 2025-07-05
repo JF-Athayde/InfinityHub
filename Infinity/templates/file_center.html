@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Central de Arquivos e Links | InfinityHub{% endblock %}
+
+{% block head_extra %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/files/file_center.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content central-files">
+    <section class="central-header">
+        <h2>📂 Central de Arquivos e Links</h2>
+        <p>Gerencie e visualize documentos e links compartilhados na plataforma.</p>
+
+        <a href="{{ url_for('new_file') }}" class="btn-primary add-file-link">➕ Adicionar Documento ou Link</a>
+    </section>
+
+    <section class="file-list">
+        {% if files %}
+            <ul>
+                {% for file in files %}
+                <li>
+                    <a href="{{ file.link }}" target="_blank">📄 {{ file.title }}</a>
+                    <p>{{ file.description }}</p>
+                    <small>Compartilhado por {{ file.user.username }} em {{ file.uploaded_at.strftime('%d/%m/%Y') }}</small>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Nenhum documento ou link registrado ainda.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

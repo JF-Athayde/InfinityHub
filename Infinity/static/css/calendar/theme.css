@@ -60,7 +60,7 @@ body.light .numbers-days span:hover {
 }
 
 body.light .empty-day {
-    background-color: transparent;
+    background-color: rgb(209, 209, 209);
     cursor: default;
 }
 
@@ -371,3 +371,7 @@ body.dark .priority-2 { border-left-color: #aed581 !important; }
 body.dark .priority-3 { border-left-color: #ffd54f !important; }
 body.dark .priority-4 { border-left-color: #ffb74d !important; }
 body.dark .priority-5 { border-left-color: #e57373 !important; }
+
+body.dark .google-event {
+  background-color: transparent;
+}

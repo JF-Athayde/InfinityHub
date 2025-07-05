@@ -2,7 +2,6 @@ async function syncGoogleEvents() {
   try {
     const response = await fetch('/calendar/events/google');
     if (response.status === 401) {
-      alert('Por favor, conecte-se ao Google Calendar primeiro clicando em "Conectar ao Google Calendar".');
       return;
     }
     const events = await response.json();
@@ -26,5 +25,5 @@ async function syncGoogleEvents() {
 
 window.onload = () => {
   syncGoogleEvents(); // Sincroniza ao carregar
-  setInterval(syncGoogleEvents, 3000); // Sincroniza a cada 5 min
+  setInterval(syncGoogleEvents, 60000); // Sincroniza a cada 5 min
 };

@@ -1,0 +1,151 @@
+/* Estilo base */
+.central-files {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    border-radius: 8px;
+}
+
+.central-header h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.central-header p {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.add-file-link {
+    display: inline-block;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    background-color: #3366ff;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+
+.add-file-link:hover {
+    background-color: #254eda;
+}
+
+body.dark .add-file-link {
+    background-color: #4466cc;
+}
+
+body.dark .add-file-link:hover {
+    background-color: #3355aa;
+}
+
+/* Lista de arquivos como blocos */
+.file-list ul {
+    list-style: none;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.file-list li {
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.file-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.file-list a {
+    display: block;
+    font-weight: 600;
+    font-size: 18px;
+    color: inherit;
+    margin-bottom: 8px;
+    text-decoration: none;
+    word-wrap: break-word;
+}
+
+.file-list a:hover {
+    text-decoration: underline;
+}
+
+.file-list p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.file-list small {
+    font-size: 12px;
+    color: #888;
+}
+
+/* ---------------------- */
+/* Tema Claro: body.light */
+/* ---------------------- */
+body.light .central-files {
+    background-color: #ffffff;
+    color: #222222;
+}
+
+body.light .file-list li {
+    background-color: #f9f9f9;
+    border-color: #ddd;
+}
+
+/* ---------------------- */
+/* Tema Escuro: body.dark */
+/* ---------------------- */
+body.dark .central-files {
+    background-color: #1f1f2e;
+    color: #e0e0e0;
+}
+
+body.dark .file-list li {
+    background-color: #2a2a3d;
+    border-color: #3a3a5c;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .file-list a {
+    color: #aad4ff;
+}
+
+body.dark .file-list p {
+    color: #ccc;
+}
+
+body.dark .file-list small {
+    color: #999;
+}
+
+/* ---------------------- */
+/* Responsividade extra   */
+/* ---------------------- */
+@media (max-width: 600px) {
+    .central-header h2 {
+        font-size: 24px;
+    }
+
+    .central-header p {
+        font-size: 14px;
+    }
+
+    .file-list li {
+        padding: 16px;
+    }
+
+    .file-list a {
+        font-size: 16px;
+    }
+}

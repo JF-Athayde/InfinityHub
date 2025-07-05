@@ -1,0 +1,127 @@
+/* Estilo base comum */
+.central-files {
+    padding: 20px;
+    max-width: 800px;
+    margin: 40px auto; /* espaço superior e inferior e centraliza horizontalmente */
+    border-radius: 12px; /* bordas arredondadas do container */
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Cabeçalho */
+.central-header h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    text-align: center; /* centralizar texto */
+}
+
+.central-header p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    text-align: center; /* centralizar texto */
+}
+
+/* Formulário */
+.upload-form {
+    max-width: 600px;
+    margin: 0 auto; /* centraliza o formulário dentro do container */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+.upload-form .form-group {
+    margin-bottom: 20px;
+}
+
+.upload-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.upload-form input.form-control,
+.upload-form textarea.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    border: 1.5px solid #ccc;
+    transition: border-color 0.3s, background-color 0.3s;
+    box-sizing: border-box;
+}
+
+.upload-form textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.upload-form button.btn-primary {
+    display: block;
+    width: 100%;
+    background-color: #3366ff;
+    color: white;
+    padding: 12px 0;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.upload-form button.btn-primary:hover {
+    background-color: #254eda;
+}
+
+/* -------------------- */
+/* Tema Claro (body.light) */
+/* -------------------- */
+body.light .central-files {
+    background-color: #ffffff;
+    color: #333333;
+}
+
+body.light .upload-form {
+    background-color: #f5f8ff;
+}
+
+body.light input.form-control,
+body.light textarea.form-control {
+    background-color: #f9f9f9;
+    color: #333;
+    border: 1.5px solid #ccc;
+}
+
+body.light input.form-control:focus,
+body.light textarea.form-control:focus {
+    border-color: #3366ff;
+    background-color: #ffffff;
+}
+
+/* -------------------- */
+/* Tema Escuro (body.dark) */
+/* -------------------- */
+body.dark .central-files {
+    background-color: #1e1e2f;
+    color: #e0e0e0;
+}
+
+body.dark .upload-form {
+    background-color: #2c2c3c;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.6);
+}
+
+body.dark input.form-control,
+body.dark textarea.form-control {
+    background-color: #34344a;
+    color: #f0f0f0;
+    border: 1.5px solid #555;
+}
+
+body.dark input.form-control:focus,
+body.dark textarea.form-control:focus {
+    border-color: #66aaff;
+    background-color: #40415a;
+}

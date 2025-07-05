@@ -17,10 +17,7 @@
                     <h3 class="titulo-evento">{{ evento.title }}</h3>
                     <p class="descricao-evento">{{ evento.description }}</p>
                     <div class="detalhes-evento">
-                        <span class="categoria">Importância: {{ evento.category }} / 5</span>
-                        <span class="alerta">
-                            {{ '✅ Alerta Ativado' if evento.warning else '❌ Sem Alerta' }}
-                        </span>
+                        <span class="categoria">Classificação: {{ evento.category }} / 5</span>
                     </div>
                 </li>
             {% endfor %}

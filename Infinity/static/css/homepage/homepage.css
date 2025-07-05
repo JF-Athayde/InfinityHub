@@ -16,8 +16,6 @@ body.light .hero {
     justify-content: space-between;
     padding: 4rem 2rem;
     gap: 2.5rem;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
     flex-wrap: wrap;
     color: var(--color-white);
     transition: background 0.3s, color 0.3s;
@@ -25,6 +23,10 @@ body.light .hero {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    max-width: 1200px;       /* largura máxima */
+    margin: 0 40px;          /* margem lateral para afastar das bordas */
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 body.light .hero-text {
@@ -32,7 +34,6 @@ body.light .hero-text {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     flex: 1;
     min-width: 280px;
 }
@@ -126,10 +127,12 @@ body.dark .hero {
     justify-content: space-between;
     padding: 4rem 2rem;
     gap: 2.5rem;
-    border-radius: 12px;
     flex-wrap: wrap;
     color: var(--color-white);
     transition: background 0.3s, color 0.3s;
+    max-width: 1200px;       /* largura máxima */
+    margin: 0 40px;          /* margem lateral para afastar das bordas */
+    border-radius: 12px;
 }
 
 body.dark .hero-text {
@@ -137,7 +140,6 @@ body.dark .hero-text {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
     flex: 1;
     min-width: 280px;
 }
@@ -224,6 +226,10 @@ body.dark .feature-card p {
     text-align: center;
 }
 
+body .feature-card {
+    margin: 0px 10px;
+}
+
 /* ========= Ícones visíveis em modos distintos ========= */
 #r1 {
     display: none;
@@ -240,6 +246,8 @@ body.dark .feature-card p {
         text-align: center;
         gap: 2.5rem;
         padding: 3rem 1.5rem;
+        margin: 0 20px;  /* margem menor em telas pequenas */
+        max-width: none; /* permite ocupar toda largura */
     }
 
     .hero-text,
@@ -256,7 +264,7 @@ body.dark .feature-card p {
         width: 100%;
     }
 
-    body.dark .hero-text p {
+    body.light .hero-text p {
         width: 100%;
     }
 
