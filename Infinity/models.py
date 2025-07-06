@@ -16,8 +16,11 @@ class User(database.Model, UserMixin):
     cargo = database.Column(database.String(50))
     bio = database.Column(database.Text)
     photo_url = database.Column(database.String(255))
+    
+    # Relação com FlashNote usando back_populates
+    flash_notes = database.relationship('FlashNote', back_populates='user', lazy=True)
 
-    # =================== Google Calendar OAuth2 ===================
+    # Google Calendar OAuth2
     google_credentials = database.Column(database.Text)  # Para armazenar as credenciais como JSON
 
     def get_google_credentials(self):
@@ -65,3 +68,12 @@ class File(database.Model):
     uploaded_at = database.Column(database.DateTime, default=datetime.utcnow)
 
     user = database.relationship('User', backref='files')
+
+class FlashNote(database.Model):
+    id = database.Column(database.Integer, primary_key=True)
+    content = database.Column(database.String(500), nullable=False)
+    timestamp = database.Column(database.DateTime, default=datetime.utcnow)
+    user_id = database.Column(database.Integer, database.ForeignKey('user.id'), nullable=False)
+
+    # Relação com User usando back_populates (coerente com User.flash_notes)
+    user = database.relationship('User', back_populates='flash_notes')

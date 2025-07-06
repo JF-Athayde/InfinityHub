@@ -1,0 +1,35 @@
+/* Tema claro */
+body.light .note-container {
+    background-color: #ffffff;
+    color: #333;
+}
+
+body.light .note-card {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+}
+
+/* Tema escuro */
+body.dark .note-container {
+    background-color: #1e1e1e;
+    color: #eee;
+}
+
+body.dark .note-card {
+    background-color: #2c2c2c;
+    border: 1px solid #444;
+}
+
+body.dark .note-input {
+    background-color: #2a2a2a;
+    color: #eee;
+    border: 1px solid #555;
+}
+
+body.dark .note-submit {
+    background-color: #0056b3;
+}
+
+body.dark .note-submit:hover {
+    background-color: #003f80;
+}

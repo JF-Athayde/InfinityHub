@@ -109,3 +109,67 @@ body.dark .task-form input[type="text"] {
     color: white;
     border: 1.5px solid var(--border-color);
 }
+
+/* ========= Responsividade ========= */
+
+@media (max-width: 768px) {
+    .tasks-container {
+        margin: 40px 20px;
+        padding: 20px;
+    }
+
+    .tasks-title {
+        font-size: 1.8rem;
+    }
+
+    .task-form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .task-form input[type="text"],
+    .add-task-btn {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 12px 14px;
+    }
+
+    .task-list {
+        font-size: 1.1rem;
+    }
+
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .delete-btn {
+        align-self: flex-end;
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 400px) {
+    .tasks-title {
+        font-size: 1.6rem;
+    }
+
+    .task-form input[type="text"],
+    .add-task-btn {
+        font-size: 1rem;
+        padding: 10px 12px;
+    }
+
+    .task-item {
+        padding: 10px 12px;
+    }
+
+    .delete-btn {
+        font-size: 20px;
+    }
+
+    .task-empty {
+        font-size: 1rem;
+    }
+}

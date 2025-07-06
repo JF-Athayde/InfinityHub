@@ -255,7 +255,7 @@ footer p {
   margin: 0;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 670px) {
   .header-right {
     flex-direction: row;
     align-items: center;

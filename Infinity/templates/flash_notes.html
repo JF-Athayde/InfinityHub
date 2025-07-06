@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Notas Rápidas | InfinityHub{% endblock %}
+
+{% block head_extra %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/note/note.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/note/theme.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="note-container">
+    <h1>Notas Rápidas</h1>
+    <form method="POST" class="note-form">
+        {{ form.hidden_tag() }}
+        <label for="text_area">{{ form.content.label }}</label>
+        {{ form.content(size=80, class_="note-input") }}
+        {{ form.submit(class_="note-submit") }}
+    </form>
+
+    <h2>Suas Notas:</h2>
+    {% for note in user.flash_notes %}
+        <div class="note-card">{{ note.content }}</div>
+    {% else %}
+        <p class="note-empty">Você ainda não possui notas rápidas.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -23,8 +23,8 @@ body.light .hero {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    max-width: 1200px;       /* largura máxima */
-    margin: 0 40px;          /* margem lateral para afastar das bordas */
+    width: 95vw;
+    margin: 0 auto;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
 }
@@ -79,10 +79,10 @@ body.light .hero-img img {
 
 body.light .features {
     margin-top: 3rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    padding: 0 2rem;
     transition: color 0.3s;
 }
 
@@ -92,9 +92,6 @@ body.light .feature-card {
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.08);
-    flex: 1 1 250px;
-    max-width: 300px;
-    min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -111,13 +108,11 @@ body.light .feature-card h3 {
     font-size: 1.3rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
-    text-align: center;
 }
 
 body.light .feature-card p {
     font-size: 1rem;
     line-height: 1.5;
-    text-align: center;
 }
 
 /* ========= Modo Escuro ========= */
@@ -130,8 +125,8 @@ body.dark .hero {
     flex-wrap: wrap;
     color: var(--color-white);
     transition: background 0.3s, color 0.3s;
-    max-width: 1200px;       /* largura máxima */
-    margin: 0 40px;          /* margem lateral para afastar das bordas */
+    width: 95vw;
+    margin: 0 auto;
     border-radius: 12px;
 }
 
@@ -185,10 +180,10 @@ body.dark .hero-img img {
 
 body.dark .features {
     margin-top: 3rem;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    padding: 0 2rem;
     transition: color 0.3s;
 }
 
@@ -198,9 +193,6 @@ body.dark .feature-card {
     padding: 1.5rem;
     border-radius: 10px;
     box-shadow: 0 0 10px #ffffff40;
-    flex: 1 1 250px;
-    max-width: 300px;
-    min-height: 200px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -217,17 +209,15 @@ body.dark .feature-card h3 {
     font-size: 1.3rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
-    text-align: center;
 }
 
 body.dark .feature-card p {
     font-size: 1rem;
     line-height: 1.5;
-    text-align: center;
 }
 
 body .feature-card {
-    margin: 0px 10px;
+    margin: 0 10px;
 }
 
 /* ========= Ícones visíveis em modos distintos ========= */
@@ -240,32 +230,36 @@ body .feature-card {
 }
 
 /* ========= Responsividade ========= */
-@media (max-width: 690px) {
+
+/* ========= Responsividade ========= */
+
+/* Layout com 2 colunas padrão até 900px */
+@media (max-width: 900px) {
+    .features {
+        grid-template-columns: repeat(2, 1fr);
+        padding: 0 1rem;
+    }
+}
+
+/* Layout com 1 coluna SOMENTE em telas muito pequenas (< 400px) */
+@media (max-width: 666px) {
+    .features {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+
     .hero {
         flex-direction: column;
         text-align: center;
         gap: 2.5rem;
         padding: 3rem 1.5rem;
-        margin: 0 20px;  /* margem menor em telas pequenas */
-        max-width: none; /* permite ocupar toda largura */
+        margin: 0 20px;
+        max-width: none;
     }
 
     .hero-text,
     .hero-img {
         flex: none;
-    }
-
-    .features {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    body.dark .hero-text p {
-        width: 100%;
-    }
-
-    body.light .hero-text p {
-        width: 100%;
     }
 
     #r2 {
@@ -278,5 +272,10 @@ body .feature-card {
 
     body .hero {
         height: calc(100vh - 100px);
+    }
+
+    body.light .hero-text p,
+    body.dark .hero-text p {
+        width: 100%;
     }
 }

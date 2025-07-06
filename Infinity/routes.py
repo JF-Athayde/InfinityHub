@@ -8,8 +8,8 @@ from flask_login import (
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 from Infinity import app, database
-from Infinity.models import User, Calendar, Task, File
-from Infinity.form import LoginForm, RegisterForm, ProfileForm, CalendarForm, FileUploadForm
+from Infinity.models import User, Calendar, Task, File, FlashNote
+from Infinity.form import LoginForm, RegisterForm, ProfileForm, CalendarForm, FileUploadForm, FormFlashNotes
 
 import os
 import pathlib
@@ -156,6 +156,19 @@ def settings():
         form.cargo.data = current_user.cargo
         form.bio.data = current_user.bio
     return render_template('settings.html', form=form, user=current_user)
+
+@app.route('/flash_notes', methods=['GET', 'POST'])
+@login_required
+def flash_notes():
+    form = FormFlashNotes()
+    if form.validate_on_submit():
+        add_flash_note_for_user(current_user, form.content.data)
+        flash('Nota adicionada com sucesso!', 'success')
+        return redirect(url_for('flash_notes'))
+
+    notes = FlashNote.query.filter_by(user_id=current_user.id).order_by(FlashNote.timestamp.desc()).all()
+    notes.reverse()
+    return render_template('flash_notes.html', form=form, user=current_user, notes=notes)
 
 @app.route('/logout')
 @login_required
@@ -335,10 +348,11 @@ def get_google_calendar_events():
     return events_result.get('items', [])
 
 def add_event_to_google_calendar(summary, description, start_datetime, end_datetime):
-    if 'credentials' not in session:
-        return False
+    creds_data = json.loads(current_user.google_credentials or '{}')
+    if not creds_data:
+        raise Exception("Usuário não autenticado com Google")
 
-    creds = Credentials(**session['credentials'])
+    creds = Credentials(**creds_data)
     service = build('calendar', 'v3', credentials=creds)
 
     event = {
@@ -354,5 +368,30 @@ def add_event_to_google_calendar(summary, description, start_datetime, end_datet
         },
     }
 
-    created = service.events().insert(calendarId='primary', body=event).execute()
-    return created
+    created_event = service.events().insert(calendarId='primary', body=event).execute()
+
+    # Atualize o token, caso tenha sido renovado
+    current_user.set_google_credentials({
+        'token': creds.token,
+        'refresh_token': creds.refresh_token,
+        'token_uri': creds.token_uri,
+        'client_id': creds.client_id,
+        'client_secret': creds.client_secret,
+        'scopes': creds.scopes
+    })
+    database.session.commit()
+
+    return created_event
+
+def add_flash_note_for_user(user, content):
+    new_note = FlashNote(content=content, user_id=user.id, timestamp=datetime.utcnow())
+    database.session.add(new_note)
+    database.session.commit()
+
+    notes = FlashNote.query.filter_by(user_id=user.id).order_by(FlashNote.timestamp.asc()).all()
+
+    if len(notes) > 5:
+        notes_to_delete = notes[:-5]  # pega todas menos as 5 últimas
+        for note in notes_to_delete:
+            database.session.delete(note)
+        database.session.commit()

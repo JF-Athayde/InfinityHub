@@ -38,7 +38,6 @@ class CalendarForm(FlaskForm):
     warning = BooleanField("Aviso")
     submit = SubmitField("Adicionar Evento")
 
-
 class TaskForm(FlaskForm):
     description = StringField('Descrição', validators=[DataRequired()])
     submit = SubmitField('Adicionar')
@@ -48,3 +47,7 @@ class FileUploadForm(FlaskForm):
     link = StringField('Link do Arquivo', validators=[DataRequired(), Length(max=300)])
     description = TextAreaField('Descrição', validators=[Optional(), Length(max=500)])
     submit = SubmitField('Salvar Arquivo')
+
+class FormFlashNotes(FlaskForm):
+    content = StringField('Nota', validators=[DataRequired()])
+    submit = SubmitField('Adicionar')

@@ -1,0 +1,76 @@
+.note-container {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 30px 25px;
+    border-radius: 10px;
+}
+
+/* Títulos */
+.note-container h1,
+.note-container h2 {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Formulário */
+.note-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
+}
+
+.note-form label {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+/* Campo de entrada */
+.note-input {
+    padding: 14px;
+    font-size: 1.05rem;
+    border: 1.5px solid #ccc;
+    border-radius: 8px;
+}
+
+/* Botão de envio */
+.note-submit {
+    margin-top: 10px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.note-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Notas */
+.note-card {
+    margin-top: 25px;
+    padding: 16px 18px;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    white-space: pre-wrap;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    border: 1px solid #ddd;
+}
+
+/* Mensagem de vazio */
+.note-empty {
+    font-style: italic;
+    color: #888;
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1rem;
+}
