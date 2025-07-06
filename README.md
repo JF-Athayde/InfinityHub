@@ -148,13 +148,18 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 4. Execute a aplicação
+### 4. Crie a database
+```bash
+python db.py
+```
+
+### 5. Execute a aplicação
 
 ```bash
 flask run
 ```
 
-### 5. Acesse no navegador
+### 6. Acesse no navegador
 
 ```bash
 http://localhost:5000
