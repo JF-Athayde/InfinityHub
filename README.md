@@ -115,6 +115,8 @@ A Central de Arquivos pode ser acessada pela rota `/central_arquivos`. A interfa
 |-------|--------|
 | ![Login Claro](prints/print_login_claro.png) | ![Login Escuro](prints/print_login_escuro.png) |
 
+OBS: Há outras paginas, porém são de formularios como a adição de links ou arquivos.
+
 ---
 
 ## 🛠️ Como Rodar Localmente
