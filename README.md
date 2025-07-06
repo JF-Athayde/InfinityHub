@@ -126,16 +126,38 @@ OBS: Há outras paginas, porém são de formularios como a adição de links ou 
    git clone https://github.com/seu-usuario/seu-projeto.git
    cd seu-projeto
 
-2. Ative o ambiente virtual
-    python -m venv venv
-    source venv/bin/activate  # Linux/Mac
-    venv\Scripts\activate     # Windows
+### 2. Ative o ambiente virtual
 
-3. Instale as dependências:
-    pip install -r requirements.txt
+```bash
+python -m venv venv
+```
 
-4. Execute a aplicação:
-    flask run
+```bash
+# Linux/Mac
+source venv/bin/activate
+```
 
-5. Acesse no navegador:
-    http://localhost:5000
+```bash
+# Windows
+venv\Scripts\activate
+```
+
+### 3. Instale as dependências
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Execute a aplicação
+
+```bash
+flask run
+```
+
+### 5. Acesse no navegador
+
+```bash
+http://localhost:5000
+```
+
+
