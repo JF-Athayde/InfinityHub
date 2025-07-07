@@ -25,7 +25,7 @@ os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
 GOOGLE_CLIENT_SECRETS_FILE = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 SCOPES = ['https://www.googleapis.com/auth/calendar']
-REDIRECT_URI = 'http://localhost:5000/oauth2callback'
+REDIRECT_URI = 'https://web-production-ee9e8.up.railway.app/oauth2callback'
 
 # ======================== ROTAS PRINCIPAIS ========================
 
