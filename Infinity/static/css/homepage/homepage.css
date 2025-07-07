@@ -267,7 +267,7 @@ body .feature-card {
     }
 
     #r1 {
-        display: inline-block;
+        display: none;
     }
 
     body .hero {
