@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 a {
     text-decoration: none;
 }
@@ -23,7 +27,7 @@ body.light .hero {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    width: 95vw;
+    width: 100vw;
     margin: 0 auto;
     border-bottom-left-radius: 12px;
     border-bottom-right-radius: 12px;
@@ -231,8 +235,6 @@ body .feature-card {
 
 /* ========= Responsividade ========= */
 
-/* ========= Responsividade ========= */
-
 /* Layout com 2 colunas padrão até 900px */
 @media (max-width: 900px) {
     .features {
@@ -271,7 +273,7 @@ body .feature-card {
     }
 
     body .hero {
-        height: calc(100vh - 100px);
+        height: calc(100vh - 50px);
     }
 
     body.light .hero-text p,
