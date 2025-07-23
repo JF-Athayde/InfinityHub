@@ -1,5 +1,5 @@
 from flask import (
-    render_template, redirect, url_for, flash, request, session,
+    render_template, redirect, url_for, flash, request,
     jsonify, current_app
 )
 from flask_login import (
@@ -9,40 +9,38 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 from Infinity import app, database
 from Infinity.models import User, Calendar, Task, File, FlashNote
-from Infinity.form import LoginForm, RegisterForm, ProfileForm, CalendarForm, FileUploadForm, FormFlashNotes
+from Infinity.form import LoginForm, RegisterForm, ProfileForm, FileUploadForm, FormFlashNotes
 
 import os
-import pathlib
-import json
-from datetime import date, datetime, time, timedelta
+from datetime import date, datetime
 
-# Google OAuth2
-from google_auth_oauthlib.flow import Flow
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
-
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-
-GOOGLE_CLIENT_SECRETS_FILE = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
-SCOPES = ['https://www.googleapis.com/auth/calendar']
-REDIRECT_URI = 'https://web-production-ee9e8.up.railway.app/oauth2callback'
+# Importa funções para integração com Google Calendar
+from Infinity.google_calendar import (
+    add_event_to_google_calendar,
+    get_google_calendar_events
+)
 
 # ======================== ROTAS PRINCIPAIS ========================
 
 @app.route('/')
 def homepage():
+    # Página inicial, passa o usuário atual para a template
     return render_template('homepage.html', user=current_user)
+
 
 @app.route('/tasks', methods=['GET', 'POST'])
 @login_required
 def tasks():
+    # Página de tarefas, só acessível se estiver logado
+
     if request.method == 'POST':
+        # Ao enviar uma nova tarefa
         description = request.form.get('description', '').strip()
         if description:
-            # Cria nova tarefa associada ao usuário logado
+            # Cria tarefa ligada ao usuário logado
             new_task = Task(
                 description=description,
-                user_id=current_user.id  # ESSENCIAL!
+                user_id=current_user.id  # Importante para linkar usuário
             )
             database.session.add(new_task)
             database.session.commit()
@@ -51,28 +49,34 @@ def tasks():
             flash('Descrição da tarefa não pode ser vazia.', 'warning')
         return redirect(url_for('tasks'))
 
-    # GET: lista tarefas do usuário logado
+    # Se for GET, exibe as tarefas do usuário
     tasks = Task.query.filter_by(user_id=current_user.id).order_by(Task.id.desc()).all()
     return render_template('tasks.html', tasks=tasks, user=current_user)
+
 
 @app.route('/tasks/delete/<int:task_id>', methods=['POST'])
 @login_required
 def delete_task(task_id):
+    # Rota para deletar tarefa específica
     task = Task.query.get_or_404(task_id)
     database.session.delete(task)
     database.session.commit()
     flash('Tarefa excluída com sucesso!', 'success')
     return redirect(url_for('tasks'))
 
+
 @app.route('/calendar')
 @login_required
 def calendar():
-    google_authenticated = current_user.get_google_credentials() is not None  # Verifica se o Google Calendar está autenticado
+    # Página do calendário que verifica se o usuário está autenticado no Google Calendar
+    google_authenticated = current_user.get_google_credentials() is not None
     return render_template('calendar.html', google_authenticated=google_authenticated, user=current_user)
+
 
 @app.route('/calendar/events')
 @login_required
 def calendar_events():
+    # Retorna os eventos salvos localmente no banco, do usuário logado, em formato JSON
     eventos = Calendar.query.filter_by(user_id=current_user.id).all()
     return jsonify([
         {
@@ -83,21 +87,28 @@ def calendar_events():
         } for evento in eventos
     ])
 
+
 @app.route('/calendar/day/<int:ano>/<int:mes>/<int:dia>')
 @login_required
 def events_by_day(ano, mes, dia):
+    # Mostra os eventos de um dia específico no calendário local
     data = date(ano, mes, dia)
     eventos = Calendar.query.filter_by(user_id=current_user.id, day_month_year=data).all()
     return render_template('events_day.html', eventos=eventos, data=data, user=current_user)
+
 
 # ======================== LOGIN E PERFIL ========================
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    # Página de login - se já estiver logado, redireciona para homepage
     if current_user.is_authenticated:
         return redirect(url_for('homepage'))
+
     form = LoginForm()
+
     if form.validate_on_submit():
+        # Verifica se email existe e senha está correta
         user = User.query.filter_by(email=form.email.data).first()
         if user and check_password_hash(user.password_hash, form.password.data):
             login_user(user, remember=form.remember.data)
@@ -107,12 +118,16 @@ def login():
             flash('Email ou senha incorretos.', 'danger')
     return render_template('login.html', form=form)
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    # Página de registro - redireciona para homepage se já estiver logado
     if current_user.is_authenticated:
         return redirect(url_for('homepage'))
+
     form = RegisterForm()
     if form.validate_on_submit():
+        # Cria novo usuário com senha criptografada
         hashed_password = generate_password_hash(form.password.data)
         new_user = User(
             username=form.username.data,
@@ -125,26 +140,32 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', form=form)
 
+
 @app.route('/profile/<username>')
 @login_required
 def profile_user(username):
+    # Página de perfil do usuário
     user = User.query.filter_by(username=username).first()
     if not user:
         flash('Usuário não encontrado.', 'danger')
         return redirect(url_for('homepage'))
     return render_template('profile.html', user=user)
 
+
 @app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
+    # Página para editar configurações do perfil
     form = ProfileForm()
     if form.validate_on_submit():
         if form.photo.data:
+            # Salva foto enviada na pasta profile_pictures
             filename = secure_filename(form.photo.data.filename)
             upload_folder = os.path.join(current_app.root_path, 'static/assets/profile_pictures')
             os.makedirs(upload_folder, exist_ok=True)
             form.photo.data.save(os.path.join(upload_folder, filename))
             current_user.photo_url = filename
+        # Atualiza os dados do usuário
         current_user.username = form.username.data
         current_user.cargo = form.cargo.data
         current_user.bio = form.bio.data
@@ -152,49 +173,61 @@ def settings():
         flash('Configurações salvas com sucesso!', 'success')
         return redirect(url_for('profile_user', username=current_user.username))
     elif request.method == 'GET':
+        # Preenche o formulário com os dados atuais do usuário
         form.username.data = current_user.username
         form.cargo.data = current_user.cargo
         form.bio.data = current_user.bio
     return render_template('settings.html', form=form, user=current_user)
 
+
 @app.route('/flash_notes', methods=['GET', 'POST'])
 @login_required
 def flash_notes():
+    # Página para adicionar e listar notas rápidas (flash notes)
     form = FormFlashNotes()
     if form.validate_on_submit():
         add_flash_note_for_user(current_user, form.content.data)
         flash('Nota adicionada com sucesso!', 'success')
         return redirect(url_for('flash_notes'))
 
+    # Lista as notas do usuário (ordem decrescente e depois inverte para ordem crescente)
     notes = FlashNote.query.filter_by(user_id=current_user.id).order_by(FlashNote.timestamp.desc()).all()
     notes.reverse()
     return render_template('flash_notes.html', form=form, user=current_user, notes=notes)
 
+
 @app.route('/logout')
 @login_required
 def logout():
+    # Faz logout do usuário
     logout_user()
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('homepage'))
+
 
 # ======================== ARQUIVOS ========================
 
 @app.route('/central_arquivos')
 @login_required
 def file_center():
+    # Página central de arquivos compartilhados
     files = File.query.order_by(File.uploaded_at.desc()).all()
     form = FileUploadForm()
     return render_template('file_center.html', files=files, form=form, user=current_user)
 
+
 @app.route('/novo_arquivo')
 @login_required
 def new_file():
+    # Página para adicionar um novo arquivo
     form = FileUploadForm()
     return render_template('add_file.html', form=form, user=current_user)
+
 
 @app.route('/file_upload', methods=['POST', 'GET'])
 @login_required
 def file_upload():
+    # Endpoint para enviar arquivo
     form = FileUploadForm()
     if form.validate_on_submit():
         file = File(
@@ -207,191 +240,23 @@ def file_upload():
         database.session.commit()
         flash('Arquivo salvo com sucesso!', 'success')
         return redirect(url_for('file_center'))
+    # Caso tenha erro na validação
     files = File.query.order_by(File.uploaded_at.desc()).all()
     flash('Erro ao enviar arquivo. Verifique os campos.', 'danger')
     return render_template('file_center.html', form=form, files=files, user=current_user)
 
-# ======================== EVENTOS + GOOGLE CALENDAR ========================
-
-@app.route('/add_event', methods=['GET', 'POST'])
-@login_required
-def add_event():
-    form = CalendarForm()
-    dia = request.args.get('dia')
-    mes = request.args.get('mes')
-    ano = request.args.get('ano')
-
-    if dia and mes and ano:
-        try:
-            form.data.data = date(int(ano), int(mes), int(dia))
-        except ValueError:
-            pass
-
-    if form.validate_on_submit():
-        # Define horário fixo, exemplo: 10:00 até 11:00
-        data_inicio = datetime.combine(form.data.data, time(10, 0))
-        data_fim = data_inicio + timedelta(hours=1)
-        novo_evento = Calendar(
-            user_id=current_user.id,
-            data=form.data.data,
-            title=form.title.data,
-            description=form.description.data,
-            category=form.category.data
-        )
-        database.session.add(novo_evento)
-        database.session.commit()
-
-        try:
-            add_event_to_google_calendar(
-                summary=form.title.data,
-                description=form.description.data,
-                start_datetime=data_inicio,
-                end_datetime=data_fim
-            )
-            flash("Evento sincronizado com o Google Calendar!", "success")
-        except Exception as e:
-            print("Erro ao sincronizar com Google Calendar:", e)
-            flash("Evento salvo, mas não sincronizado com o Google Calendar.", "warning")
-
-        return redirect(url_for('calendar'))
-
-    return render_template('add_event.html', form=form, user=current_user)
-
-@app.route('/authorize')
-@login_required
-def authorize():
-    flow = Flow.from_client_secrets_file(
-        GOOGLE_CLIENT_SECRETS_FILE,
-        scopes=SCOPES,
-        redirect_uri=REDIRECT_URI
-    )
-    authorization_url, state = flow.authorization_url(
-        access_type='offline',
-        include_granted_scopes='false',
-        prompt='consent'
-    )
-    session['state'] = state
-    return redirect(authorization_url)
-
-@app.route('/oauth2callback')
-@login_required
-def oauth2callback():
-    try:
-        state = session.get('state')
-        flow = Flow.from_client_secrets_file(
-            GOOGLE_CLIENT_SECRETS_FILE,
-            scopes=SCOPES,
-            state=state,
-            redirect_uri=REDIRECT_URI
-        )
-        flow.fetch_token(authorization_response=request.url)
-        credentials = flow.credentials
-
-        # Salvar as credenciais no banco de dados, associadas ao usuário logado
-        current_user.set_google_credentials({
-            'token': credentials.token,
-            'refresh_token': credentials.refresh_token,
-            'token_uri': credentials.token_uri,
-            'client_id': credentials.client_id,
-            'client_secret': credentials.client_secret,
-            'scopes': credentials.scopes
-        })
-
-        database.session.commit()
-
-        flash('Google Calendar conectado com sucesso!', 'success')
-    except Exception as e:
-        flash(f"Erro ao conectar Google Calendar: {e}", 'danger')
-    return redirect(url_for('calendar'))
-
-@app.route('/calendar/events/google')
-@login_required
-def calendar_events_google():
-    events = get_google_calendar_events()
-    if events is None:
-        return jsonify({'error': 'Não autenticado com Google Calendar'}), 401
-    return jsonify([{
-        'id': event.get('id'),
-        'title': event.get('summary', 'Sem título'),
-        'start': event['start'].get('dateTime', event['start'].get('date')),
-        'end': event['end'].get('dateTime', event['end'].get('date'))
-    } for event in events])
-
-def get_google_calendar_events():
-    if not current_user.get_google_credentials():
-        return None
-
-    creds_data = json.loads(current_user.google_credentials)
-    creds = Credentials(**creds_data)
-    service = build('calendar', 'v3', credentials=creds)
-
-    now = '2023-01-01T00:00:00Z'
-    events_result = service.events().list(
-        calendarId='primary',
-        maxResults=20,
-        timeMin=now,
-        singleEvents=True,
-        orderBy='startTime'
-    ).execute()
-
-    # Atualizar as credenciais se o token foi renovado
-    current_user.set_google_credentials({
-        'token': creds.token,
-        'refresh_token': creds.refresh_token,
-        'token_uri': creds.token_uri,
-        'client_id': creds.client_id,
-        'client_secret': creds.client_secret,
-        'scopes': creds.scopes
-    })
-    database.session.commit()
-
-    return events_result.get('items', [])
-
-def add_event_to_google_calendar(summary, description, start_datetime, end_datetime):
-    creds_data = json.loads(current_user.google_credentials or '{}')
-    if not creds_data:
-        raise Exception("Usuário não autenticado com Google")
-
-    creds = Credentials(**creds_data)
-    service = build('calendar', 'v3', credentials=creds)
-
-    event = {
-        'summary': summary,
-        'description': description,
-        'start': {
-            'dateTime': start_datetime.isoformat(),
-            'timeZone': 'America/Sao_Paulo',
-        },
-        'end': {
-            'dateTime': end_datetime.isoformat(),
-            'timeZone': 'America/Sao_Paulo',
-        },
-    }
-
-    created_event = service.events().insert(calendarId='primary', body=event).execute()
-
-    # Atualize o token, caso tenha sido renovado
-    current_user.set_google_credentials({
-        'token': creds.token,
-        'refresh_token': creds.refresh_token,
-        'token_uri': creds.token_uri,
-        'client_id': creds.client_id,
-        'client_secret': creds.client_secret,
-        'scopes': creds.scopes
-    })
-    database.session.commit()
-
-    return created_event
 
 def add_flash_note_for_user(user, content):
+    # Função para adicionar nota rápida para o usuário
     new_note = FlashNote(content=content, user_id=user.id, timestamp=datetime.utcnow())
     database.session.add(new_note)
     database.session.commit()
 
+    # Limita as notas a no máximo 5, apagando as mais antigas
     notes = FlashNote.query.filter_by(user_id=user.id).order_by(FlashNote.timestamp.asc()).all()
 
     if len(notes) > 5:
-        notes_to_delete = notes[:-5]  # pega todas menos as 5 últimas
+        notes_to_delete = notes[:-5]  # todas menos as 5 últimas
         for note in notes_to_delete:
             database.session.delete(note)
         database.session.commit()
