@@ -123,8 +123,8 @@ OBS: Há outras paginas, porém são de formularios como a adição de links ou 
 
 1. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/seu-projeto.git
-   cd seu-projeto
+   git clone https://github.com/JF-Athayde/InfinityHub.git
+   cd InfinityHub
 
 ### 2. Ative o ambiente virtual
 
