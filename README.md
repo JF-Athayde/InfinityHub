@@ -1,4 +1,4 @@
-# 📚 Organiza Infinity
+# Infinity Hub
 
 Aplicativo web criado para a Hackathon 2025 da Infinity School, com foco em **organização** e **produtividade** dos funcionários da instituição. A plataforma permite gerenciamento de tarefas, calendário interativo, anotações rápidas, visualização de arquivos e integração com o Google Calendar.
 
